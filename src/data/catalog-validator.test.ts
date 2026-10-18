@@ -36,8 +36,8 @@ assert.equal(go5g.undiscountedMonthlyPriceByLines[5], 230.0, 'Go5G undiscounted 
 // Verify AutoPay math consistency: undiscounted - discounted === lineCount * autoPayDiscountPerLine
 const autoPayDiscount = go5g.autoPayDiscountPerLine ?? 5.0;
 for (let lines = 1; lines <= 5; lines++) {
-  const discounted = go5g.monthlyPriceByLines[lines];
-  const undiscounted = go5g.undiscountedMonthlyPriceByLines[lines];
+  const discounted: number | null | undefined = go5g.monthlyPriceByLines[lines];
+  const undiscounted: number | null | undefined = go5g.undiscountedMonthlyPriceByLines?.[lines];
   assert.ok(typeof discounted === 'number' && typeof undiscounted === 'number');
   const expectedDiff = lines * autoPayDiscount;
   assert.equal(undiscounted - discounted, expectedDiff, `AutoPay discount for ${lines} line(s) must be exactly $${expectedDiff}`);
