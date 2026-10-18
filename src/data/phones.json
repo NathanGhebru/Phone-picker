@@ -1,17 +1,17 @@
 [
   {
-    "id": "samsung-galaxy-a15-5g",
-    "name": "Samsung Galaxy A15 5G",
-    "brand": "Samsung",
-    "listPrice": 228.0,
+    "id": "motorola-moto-g-5g-2024",
+    "name": "Motorola moto g 5G - 2024",
+    "brand": "Motorola",
+    "listPrice": 199.99,
     "financingMonths": 24,
-    "screenInches": 6.5,
+    "screenInches": 6.6,
     "batteryCapacityMah": 5000,
-    "batteryInfo": "5,000 mAh typical battery with up to 2-day battery life and 25W fast charging support.",
-    "cameraInfo": "Triple rear camera: 50 MP main (f/1.8), 5 MP ultra-wide, 2 MP macro. 13 MP front camera.",
-    "displayInfo": "6.5-inch FHD+ Super AMOLED display with 90Hz refresh rate and 800 nits Vision Booster.",
+    "batteryInfo": "5,000 mAh long-lasting battery with up to 2 days of usage per charge; supports 18W fast charging.",
+    "cameraInfo": "Dual rear camera: 50 MP main (f/1.8) with Quad Pixel technology + 2 MP macro. 8 MP front camera.",
+    "displayInfo": "6.6-inch HD+ (1612 x 720) IPS LCD with smooth 120Hz refresh rate and high brightness mode.",
     "scores": {
-      "camera": 3,
+      "camera": 2,
       "battery": 4,
       "displayReadability": 4,
       "simplicity": 4
@@ -22,15 +22,151 @@
       "screenReaderSupported": "yes"
     },
     "strengths": [
-      "Large, high-contrast 6.5-inch Super AMOLED screen with high brightness",
-      "All-day 5,000 mAh battery life",
-      "Very low entry cost and monthly financing ($9.50/mo over 24 months)"
+      "Very low full retail entry price ($199.99) and modest monthly installment ($8.34/mo over 24 months)",
+      "Large 6.6-inch display with 120Hz high refresh rate for smooth scrolling",
+      "Substantial 5,000 mAh battery capacity for multi-day basic use"
     ],
     "tradeoffs": [
-      "Moderate processor performance; not suited for heavy 3D gaming",
-      "Plastic frame and back construction; no wireless charging support"
+      "Lower 720p HD+ display resolution compared to sharper 1080p OLED screens",
+      "Entry-level Snapdragon processor best suited for everyday essentials rather than 3D gaming"
     ],
-    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-a15-5g",
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/motorola-moto-g-5g-2024",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "t-mobile-revvl-7-5g",
+    "name": "T-Mobile REVVL 7 5G",
+    "brand": "T-Mobile",
+    "listPrice": 199.99,
+    "financingMonths": 24,
+    "screenInches": 6.58,
+    "batteryCapacityMah": 5000,
+    "batteryInfo": "5,000 mAh battery supporting all-day connectivity and 15W fast charging.",
+    "cameraInfo": "Dual rear camera system: 50 MP primary lens + 2 MP depth sensor. 8 MP front selfie camera.",
+    "displayInfo": "6.58-inch FHD+ (2408 x 1080) display with 120Hz refresh rate for clear text and sharp readability.",
+    "scores": {
+      "camera": 2,
+      "battery": 4,
+      "displayReadability": 4,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Full HD+ (1080p) sharp display resolution at a budget $199.99 price point",
+      "Dependable 5,000 mAh battery life",
+      "Clean carrier-integrated Android interface with simple navigation"
+    ],
+    "tradeoffs": [
+      "Entry-level camera performance in dimly lit conditions",
+      "Single mono speaker audio output"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/t-mobile-revvl-7-5g",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "samsung-galaxy-s24-fe",
+    "name": "Samsung Galaxy S24 FE",
+    "brand": "Samsung",
+    "listPrice": 649.99,
+    "financingMonths": 24,
+    "screenInches": 6.7,
+    "batteryCapacityMah": 4700,
+    "batteryInfo": "4,700 mAh battery with intelligent power management and 25W fast charging support.",
+    "cameraInfo": "Pro-grade triple camera: 50 MP wide with OIS + 8 MP telephoto (3x optical zoom) + 12 MP ultra-wide. 10 MP front camera.",
+    "displayInfo": "6.7-inch Dynamic AMOLED 2X with adaptive 120Hz refresh rate and up to 1,900 nits peak brightness for superb outdoor visibility.",
+    "scores": {
+      "camera": 4,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Expansive 6.7-inch bright Dynamic AMOLED 2X display with exceptional outdoor readability",
+      "True 3x optical telephoto camera with optical image stabilization for distant subjects",
+      "Comprehensive Samsung One UI accessibility features (ASHA hearing aid streaming, font size sliders, high contrast mode)"
+    ],
+    "tradeoffs": [
+      "Heavier physical weight (213 grams) and larger hand footprint",
+      "Midrange list price ($649.99) requiring higher monthly installment ($27.09/mo)"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-s24-fe",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "samsung-galaxy-s24",
+    "name": "Samsung Galaxy S24",
+    "brand": "Samsung",
+    "listPrice": 799.99,
+    "financingMonths": 24,
+    "screenInches": 6.2,
+    "batteryCapacityMah": 4000,
+    "batteryInfo": "4,000 mAh battery with fast wired charging, Fast Wireless Charging 2.0, and Wireless PowerShare.",
+    "cameraInfo": "Triple camera: 50 MP wide (f/1.8, OIS) + 10 MP telephoto (3x optical zoom, OIS) + 12 MP ultra-wide. 12 MP front camera.",
+    "displayInfo": "6.2-inch FHD+ Dynamic AMOLED 2X with 1-120Hz adaptive refresh rate and industry-leading 2,600 nits peak brightness.",
+    "scores": {
+      "camera": 4,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Class-leading 2,600 nits peak outdoor brightness making text effortless to read in direct sunlight",
+      "Compact, ergonomic chassis (167g) ideal for single-handed use",
+      "Guaranteed 7 generations of Android OS and security upgrades"
+    ],
+    "tradeoffs": [
+      "Premium list price ($799.99 retail, $33.34/mo over 24 months)",
+      "Smaller 4,000 mAh battery capacity compared to plus/ultra tiers"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-s24",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "apple-iphone-15",
+    "name": "Apple iPhone 15 (128GB)",
+    "brand": "Apple",
+    "listPrice": 629.99,
+    "financingMonths": 24,
+    "screenInches": 6.1,
+    "batteryCapacityMah": 3349,
+    "batteryInfo": "Up to 20 hours video playback; fast-charge capable (up to 50% charge in ~30 minutes with 20W adapter); MagSafe wireless charging.",
+    "cameraInfo": "Advanced dual camera: 48 MP Main with 2x optical-quality telephoto + 12 MP Ultra Wide. 12 MP TrueDepth front camera.",
+    "displayInfo": "6.1-inch Super Retina XDR OLED display with Dynamic Island, 2,000 nits peak outdoor brightness, and 1,000 nits typical brightness.",
+    "scores": {
+      "camera": 4,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 5
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Refined iOS ecosystem with industry-standard accessibility (Dynamic Type, VoiceOver, MFi hearing devices)",
+      "Brilliant 2,000 nits peak outdoor OLED display and interactive Dynamic Island",
+      "Lower price point ($629.99 retail, $26.25/mo) with universal USB-C connectivity"
+    ],
+    "tradeoffs": [
+      "Fixed 60Hz display refresh rate",
+      "Does not include dedicated optical telephoto hardware lens (uses 2x sensor crop)"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/apple-iphone-15",
     "sourceCheckedAt": "2026-10-17"
   },
   {
@@ -41,8 +177,8 @@
     "financingMonths": 24,
     "screenInches": 6.1,
     "batteryCapacityMah": 3561,
-    "batteryInfo": "All-day battery life (up to 22 hours video playback) with fast charging and MagSafe wireless charging.",
-    "cameraInfo": "Advanced dual-camera system: 48 MP Fusion camera with 2x optical telephoto option, 12 MP ultra-wide with macro support, Camera Control button.",
+    "batteryInfo": "All-day battery life (up to 22 hours video playback) with fast charging and 25W MagSafe wireless charging.",
+    "cameraInfo": "Advanced dual-camera system: 48 MP Fusion camera with 2x optical telephoto option, 12 MP ultra-wide with macro support, and dedicated physical Camera Control button.",
     "displayInfo": "6.1-inch Super Retina XDR OLED display with up to 2,000 nits peak outdoor brightness and 1 nit minimum brightness.",
     "scores": {
       "camera": 5,
@@ -56,9 +192,9 @@
       "screenReaderSupported": "yes"
     },
     "strengths": [
-      "Top-tier camera system with 48MP resolution and physical Camera Control button",
-      "Exceptional outdoor display visibility (up to 2,000 nits) and text rendering",
-      "Comprehensive accessibility ecosystem (VoiceOver, Dynamic Type, MFi hearing support)"
+      "Top-tier camera system with 48MP resolution and physical Camera Control button for easy tactile shooting",
+      "Exceptional outdoor display visibility (up to 2,000 nits) and superior iOS text rendering",
+      "Comprehensive accessibility ecosystem (VoiceOver, Dynamic Type, MFi hearing support, Apple Intelligence readiness)"
     ],
     "tradeoffs": [
       "Higher upfront retail price ($829.99) and monthly installment ($34.59/mo over 24 months)",

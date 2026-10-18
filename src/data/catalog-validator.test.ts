@@ -6,13 +6,13 @@ import type { PhoneRecord, PlanRecord } from './catalog-types.ts';
 console.log('--- Testing Catalog Loader & Real Dataset ---');
 const catalog = loadCatalog();
 assert.equal(catalog.asOf, '2026-10-17');
-assert.ok(catalog.phones.length >= 2, 'Must have at least 2 seed phones');
-assert.ok(catalog.plans.length >= 2, 'Must have at least 2 seed plans');
+assert.equal(catalog.phones.length, 6, 'Must have exactly 6 verified phones in 6-phone catalog');
+assert.equal(catalog.plans.length, 3, 'Must have exactly 3 verified plans in 3-plan catalog');
 
 const validation = validateCatalog(catalog);
 assert.equal(validation.valid, true, `Validation failed: ${validation.errors.join(', ')}`);
 assert.equal(validation.errors.length, 0);
-console.log('✓ Seed catalog loads and validates with 0 errors.');
+console.log('✓ 6-phone and 3-plan catalog loads and validates with 0 errors.');
 
 console.log('--- Testing Validator Constraints ---');
 
@@ -88,3 +88,4 @@ assert.ok(eligRes.errors.some(e => e.includes("restrictions.customer must be 'ne
 console.log('✓ Invalid eligibility metadata detected.');
 
 console.log('\nAll 10 validation constraint tests passed successfully!');
+

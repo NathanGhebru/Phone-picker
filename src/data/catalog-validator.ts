@@ -136,6 +136,32 @@ export function validatePlanRecord(plan: PlanRecord, index: number, seenIds: Set
     }
   }
 
+  // Undiscounted monthly price by lines validation (optional)
+  if (plan.undiscountedMonthlyPriceByLines) {
+    if (typeof plan.undiscountedMonthlyPriceByLines !== 'object' || Array.isArray(plan.undiscountedMonthlyPriceByLines)) {
+      errors.push(`${prefix}: 'undiscountedMonthlyPriceByLines' must be an object map`);
+    } else {
+      for (const [lineKey, price] of Object.entries(plan.undiscountedMonthlyPriceByLines)) {
+        const lineCount = Number(lineKey);
+        if (!Number.isInteger(lineCount) || lineCount <= 0) {
+          errors.push(`${prefix}: invalid undiscounted line count key '${lineKey}'`);
+        }
+        if (price !== null && price !== undefined) {
+          if (typeof price !== 'number' || !Number.isFinite(price) || price < 0) {
+            errors.push(`${prefix}: invalid undiscounted price '${price}' for ${lineKey} line(s)`);
+          }
+        }
+      }
+    }
+  }
+
+  // AutoPay discount per line validation
+  if (plan.autoPayDiscountPerLine !== undefined) {
+    if (typeof plan.autoPayDiscountPerLine !== 'number' || !Number.isFinite(plan.autoPayDiscountPerLine) || plan.autoPayDiscountPerLine < 0) {
+      errors.push(`${prefix}: invalid autoPayDiscountPerLine '${plan.autoPayDiscountPerLine}'. Must be a non-negative number.`);
+    }
+  }
+
   // Hotspot score validation
   if (plan.hotspotScore !== null) {
     if (typeof plan.hotspotScore !== 'number' || !Number.isInteger(plan.hotspotScore) || plan.hotspotScore < 1 || plan.hotspotScore > 5) {

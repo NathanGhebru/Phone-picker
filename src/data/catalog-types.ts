@@ -79,6 +79,10 @@ export type PlanRecord = {
    * Never substitute multi-line per-line price for single line.
    */
   monthlyPriceByLines: Record<number, number | null | undefined>;
+  /** Optional undiscounted base monthly prices (before AutoPay discount) */
+  undiscountedMonthlyPriceByLines?: Record<number, number | null | undefined>;
+  /** AutoPay discount amount in USD per line (typically $5) */
+  autoPayDiscountPerLine?: number;
   /** Specific AutoPay discount terms and billing payment method requirements */
   autoPayAssumptions: string;
   /** Clarification on whether taxes and regulatory fees are included */
@@ -99,9 +103,18 @@ export type PlanRecord = {
   sourceCheckedAt: string;
 };
 
+export type PricingConventions = {
+  monthlyPriceByLinesType: 'advertised_autopay_discounted' | 'undiscounted';
+  monthlyPriceByLinesExplanation: string;
+  customerEligibility: string;
+  autoPayConditions: string;
+  taxesAndFeesExclusions: string;
+};
+
 export type CatalogMeta = {
   asOf: string;
   catalogVersion: string;
+  pricingConventions?: PricingConventions;
   sourceDisclaimer: string;
   heuristicRatingDisclaimer: string;
 };
@@ -118,3 +131,4 @@ export type ValidationResult = {
   errors: string[];
   warnings: string[];
 };
+
