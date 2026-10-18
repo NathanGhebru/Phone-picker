@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import { loadCatalog } from './catalog-loader.ts';
-import { validateCatalog, validatePhoneRecord, validatePlanRecord } from './catalog-validator.ts';
-import type { PhoneRecord, PlanRecord } from './catalog-types.ts';
+import { loadCatalog } from './catalog-loader';
+import { validateCatalog, validatePhoneRecord, validatePlanRecord } from './catalog-validator';
+import type { PhoneRecord, PlanRecord } from './catalog-types';
 
 console.log('--- Testing Catalog Loader & Real Dataset ---');
 const catalog = loadCatalog();
