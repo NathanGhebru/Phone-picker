@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { loadCatalog } from '../../src/data/catalog-loader';
 import { estimateCost, recommend, validatePreferences } from '../../src/recommendations';
 import type { Catalog, Preferences } from '../../src/recommendations';
 
@@ -21,6 +22,15 @@ const catalog: Catalog = {
   ],
 };
 const base = (): Preferences => ({ language: 'en', budgetMonthlyTotal: 60, budgetIncludesDevice: true, maxDeviceUpfront: null, lines: 1, devicePurchaseMode: 'monthly', newOrExistingCustomer: 'unknown', priorities: { camera: null, battery: 3, displayReadability: 5, simplicity: null, hotspot: null }, usage: ['streaming'], accessibilityNeeds: ['large_text'], eligibility: { age55Plus: 'no' } });
+const catalogWithEligiblePhones = (count: number): Catalog => ({
+  ...catalog,
+  phones: [
+    catalog.phones[0],
+    catalog.phones[1],
+    { ...catalog.phones[1], id: 'battery', name: 'Battery test phone', listPrice: 360, scores: { camera: 3, battery: 5, displayReadability: 4, simplicity: 2 }, strengths: ['TEST_LONG_BATTERY'], tradeoffs: ['TEST_HEAVIER_PHONE'] },
+  ].slice(0, count),
+  plans: [catalog.plans[0]],
+});
 
 test('all JSON preference fixtures conform to the shared preference contract', () => {
   for (const filename of ['en-budget-parent.json', 'es-budget-parent.json', 'cheaper-update.json', 'unknown-eligibility.json', 'no-match.json']) {
@@ -83,6 +93,56 @@ test('a tied lowest-cost bundle discloses the tie without implying savings', () 
   assert.equal(best?.estimatedMonthlyTotal, lowest?.estimatedMonthlyTotal);
   assert.ok(lowest?.assumptions.includes('LOWEST_COST_TIED_WITH_BEST_MATCH'));
 });
+test('a $70 combined budget returns three distinct real-catalog bundles when only one plan qualifies', () => {
+  const result = recommend({ ...base(), budgetMonthlyTotal: 70 }, loadCatalog());
+  assert.equal(result.recommendations.length, 3);
+  assert.equal(new Set(result.recommendations.map((item) => item.planId)).size, 1);
+  assert.equal(new Set(result.recommendations.map((item) => item.phoneId)).size, 3);
+  assert.ok(result.recommendations.every((item) => item.estimatedMonthlyTotal !== null && item.estimatedMonthlyTotal <= 70));
+});
+test('a single eligible plan may be reused for a meaningful phone alternative', () => {
+  const result = recommend(base(), catalogWithEligiblePhones(3));
+  assert.deepEqual(result.recommendations.map((item) => item.label), ['best_match', 'lowest_cost', 'alternative']);
+  assert.equal(new Set(result.recommendations.map((item) => item.planId)).size, 1);
+  assert.equal(new Set(result.recommendations.map((item) => `${item.phoneId}__${item.planId}`)).size, 3);
+  assert.deepEqual(Object.keys(result.recommendations[2]).sort(), [
+    'assumptions', 'currency', 'estimatedMonthlyDeviceCost', 'estimatedMonthlyTotal', 'id', 'label', 'monthlyPlanPrice',
+    'phoneId', 'planId', 'rankScore', 'reasons', 'sourceUrls', 'tradeoffs',
+  ]);
+});
+test('two eligible candidates produce exactly two distinct recommendations', () => {
+  const result = recommend(base(), catalogWithEligiblePhones(2));
+  assert.equal(result.recommendations.length, 2);
+  assert.equal(new Set(result.recommendations.map((item) => item.id)).size, 2);
+});
+test('one eligible candidate produces exactly one recommendation', () => {
+  const result = recommend(base(), catalogWithEligiblePhones(1));
+  assert.equal(result.recommendations.length, 1);
+});
+test('three eligible candidates produce exactly three distinct recommendations', () => {
+  const result = recommend(base(), catalogWithEligiblePhones(3));
+  assert.equal(result.recommendations.length, 3);
+  assert.equal(new Set(result.recommendations.map((item) => item.id)).size, 3);
+});
+test('same-plan fallback does not treat renamed copies as meaningful alternatives', () => {
+  const phone = catalog.phones[0];
+  const result = recommend(base(), {
+    ...catalogWithEligiblePhones(3),
+    phones: [phone, { ...phone, id: 'basic-copy-a', name: 'Basic copy A' }, { ...phone, id: 'basic-copy-b', name: 'Basic copy B' }],
+  });
+  assert.equal(result.recommendations.length, 2);
+  assert.ok(result.recommendations.every((item) => item.label !== 'alternative'));
+});
+test('duplicate catalog records never duplicate a phone-and-plan combination', () => {
+  const phone = catalog.phones[0];
+  const result = recommend(base(), { ...catalogWithEligiblePhones(1), phones: [phone, phone] });
+  assert.equal(result.recommendations.length, 1);
+  assert.equal(new Set(result.recommendations.map((item) => `${item.phoneId}__${item.planId}`)).size, 1);
+});
+test('zero eligible candidates do not manufacture recommendation choices', () => {
+  const result = recommend({ ...base(), budgetMonthlyTotal: 0 }, catalogWithEligiblePhones(3));
+  assert.deepEqual(result.recommendations, []);
+});
 test('plan max-lines restrictions are enforced even when a price is present', () => {
   const threeLines = recommend({ ...base(), lines: 3, budgetMonthlyTotal: 200 }, { ...catalog, plans: [{ ...catalog.plans[0], monthlyPriceByLines: { 1: 35, 2: 60, 3: 80 } }] });
   assert.equal(threeLines.recommendations.length, 0);
@@ -104,9 +164,9 @@ test('an impossible budget has a useful zero-result warning', () => {
   assert.ok(result.questions.some((question) => question.includes('raise the combined monthly budget')));
 });
 test('language does not change ranking or cost', () => {
-  const en = recommend(base(), catalog);
-  const es = recommend({ ...base(), language: 'es' }, catalog);
-  assert.deepEqual(es.recommendations.map((r) => [r.id, r.estimatedMonthlyTotal]), en.recommendations.map((r) => [r.id, r.estimatedMonthlyTotal]));
+  const en = recommend(base(), catalogWithEligiblePhones(3));
+  const es = recommend({ ...base(), language: 'es' }, catalogWithEligiblePhones(3));
+  assert.deepEqual(es, en);
 });
 test('ordering is stable and alternatives are distinct', () => {
   const one = recommend(base(), catalog);

@@ -3,9 +3,9 @@ import { checkEligibility } from './eligibility';
 import { explanationCodes } from './explanations';
 import { scoreBundle } from './scoring';
 import { validatePreferences } from './validate-preferences';
-import type { Catalog, Preferences, Recommendation, RecommendationResponse } from './types';
+import type { Catalog, PhoneCatalogItem, Preferences, Recommendation, RecommendationResponse } from './types';
 
-type Candidate = Recommendation & { phoneId: string; planId: string };
+type Candidate = Recommendation & { phoneDiversityKey: string };
 
 const questionsByReason: Record<string, string> = {
   BUDGET_SCOPE_UNCONFIRMED: 'Does your monthly budget include the phone payment as well as service?',
@@ -24,26 +24,56 @@ const clarificationReasons = new Set([
   'DEVICE_PURCHASE_MODE_REQUIRED_FOR_UPFRONT_BUDGET',
 ]);
 
+function phoneDiversityKey(phone: PhoneCatalogItem, estimatedMonthlyDeviceCost: number | null): string {
+  return JSON.stringify({
+    estimatedMonthlyDeviceCost,
+    scores: [phone.scores.camera, phone.scores.battery, phone.scores.displayReadability, phone.scores.simplicity],
+    accessibility: [phone.accessibility.hearingCompatibility, phone.accessibility.largeTextFeatures],
+    strengths: [...phone.strengths].sort(),
+    tradeoffs: [...phone.tradeoffs].sort(),
+  });
+}
+
+function toRecommendation(candidate: Candidate): Recommendation {
+  const { phoneDiversityKey: _phoneDiversityKey, ...recommendation } = candidate;
+  void _phoneDiversityKey;
+  return recommendation;
+}
+
 function pickRecommendations(candidates: Candidate[]): Recommendation[] {
   if (candidates.length === 0) return [];
-  const ordered = [...candidates].sort((a, b) => b.rankScore - a.rankScore || a.id.localeCompare(b.id));
+  const sorted = [...candidates].sort((a, b) => b.rankScore - a.rankScore || a.id.localeCompare(b.id));
+  const seenCombinations = new Set<string>();
+  const ordered = sorted.filter((item) => {
+    const combination = `${item.phoneId}\u0000${item.planId}`;
+    if (seenCombinations.has(combination)) return false;
+    seenCombinations.add(combination);
+    return true;
+  });
   const best = ordered[0];
-  const byCost = [...candidates].sort((a, b) => (a.estimatedMonthlyTotal ?? Infinity) - (b.estimatedMonthlyTotal ?? Infinity) || a.id.localeCompare(b.id));
+  const byCost = [...ordered].sort((a, b) => (a.estimatedMonthlyTotal ?? Infinity) - (b.estimatedMonthlyTotal ?? Infinity) || a.id.localeCompare(b.id));
   const lowestCost = byCost[0].estimatedMonthlyTotal;
   const bestIsLowestCost = best.estimatedMonthlyTotal === lowestCost;
   const cheapestDistinct = byCost.find((item) => item.id !== best.id && (!bestIsLowestCost || item.estimatedMonthlyTotal === lowestCost));
   const selected: Array<{ item: Candidate; label: Recommendation['label'] }> = [{ item: best, label: 'best_match' }];
   if (cheapestDistinct) selected.push({ item: cheapestDistinct, label: 'lowest_cost' });
-  const alternate = ordered.find((item) => !selected.some((selectedItem) => selectedItem.item.id === item.id)
+  let alternate = ordered.find((item) => !selected.some((selectedItem) => selectedItem.item.id === item.id)
     && !selected.some((selectedItem) => selectedItem.item.phoneId === item.phoneId || selectedItem.item.planId === item.planId));
+  if (!alternate && new Set(ordered.map((item) => item.planId)).size === 1) {
+    alternate = ordered.find((item) => !selected.some((selectedItem) => selectedItem.item.id === item.id)
+      && selected.every((selectedItem) => selectedItem.item.phoneId !== item.phoneId && selectedItem.item.phoneDiversityKey !== item.phoneDiversityKey));
+  }
   if (alternate) selected.push({ item: alternate, label: 'alternative' });
-  return selected.slice(0, 3).map(({ item, label }) => ({
-    ...item,
-    label,
-    assumptions: label === 'lowest_cost' && item.estimatedMonthlyTotal === best.estimatedMonthlyTotal
-      ? [...item.assumptions, 'LOWEST_COST_TIED_WITH_BEST_MATCH']
-      : item.assumptions,
-  }));
+  return selected.slice(0, 3).map(({ item, label }) => {
+    const recommendation = toRecommendation(item);
+    return {
+      ...recommendation,
+      label,
+      assumptions: label === 'lowest_cost' && item.estimatedMonthlyTotal === best.estimatedMonthlyTotal
+        ? [...item.assumptions, 'LOWEST_COST_TIED_WITH_BEST_MATCH']
+        : item.assumptions,
+    };
+  });
 }
 
 /** Deterministic, language-independent catalog ranking. */
@@ -73,6 +103,7 @@ export function recommend(preferencesInput: Preferences, catalog: Catalog): Reco
       assumptions: cost.assumptions,
       sourceUrls: [phone.sourceUrl, plan.sourceUrl].filter((value, index, values) => values.indexOf(value) === index),
       rankScore: score.total,
+      phoneDiversityKey: phoneDiversityKey(phone, cost.monthlyDeviceCost),
     });
   }
   const recommendations = pickRecommendations(candidates);
