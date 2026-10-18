@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Language } from "@/shared/types";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-
 const PROVIDER_URL = "https://api.elevenlabs.io/v1/convai/conversation/get-signed-url";
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS_PER_WINDOW = 8;
