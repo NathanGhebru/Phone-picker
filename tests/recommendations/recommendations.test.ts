@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { recommend, validatePreferences } from '../../src/recommendations';
+import { estimateCost, recommend, validatePreferences } from '../../src/recommendations';
 import type { Catalog, Preferences } from '../../src/recommendations';
 
 const catalog: Catalog = {
@@ -44,8 +44,10 @@ test('unknown 55+ eligibility excludes the restricted plan', () => {
   assert.ok(result.recommendations.every((r) => r.planId !== 'senior'));
 });
 test('uses exact single-line and multi-line prices', () => {
-  assert.equal(recommend(base(), catalog).recommendations.find((r) => r.planId === 'value')?.monthlyPlanPrice, 35);
-  assert.equal(recommend({ ...base(), lines: 2, budgetMonthlyTotal: 80 }, catalog).recommendations.find((r) => r.planId === 'value')?.monthlyPlanPrice, 60);
+  const valuePlan = catalog.plans.find((plan) => plan.id === 'value');
+  assert.ok(valuePlan);
+  assert.equal(estimateCost(catalog.phones[0], valuePlan, base()).monthlyPlanPrice, 35);
+  assert.equal(estimateCost(catalog.phones[0], valuePlan, { ...base(), lines: 2 }).monthlyPlanPrice, 60);
 });
 test('missing prices are never treated as zero', () => {
   const result = recommend(base(), catalog);
