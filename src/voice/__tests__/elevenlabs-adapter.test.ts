@@ -40,3 +40,35 @@ test("uses a server-issued signed URL and explicit selected language", async () 
   assert.equal(sessionOptions.overrides.agent.language, "es");
   assert.equal("apiKey" in sessionOptions, false);
 });
+
+test("unwraps the SDK status callback object and ignores disconnecting", async () => {
+  const calls: ElevenLabsStartSessionOptions[] = [];
+  const states: string[] = [];
+  const adapter = createElevenLabsVoiceAdapter(
+    {
+      async startSession(options) {
+        calls.push(options);
+        return { async endSession() {} };
+      },
+    },
+    { async createSession() { return { signedUrl: "wss://example.test/session" }; } },
+  );
+
+  await adapter.start({
+    language: "en",
+    onConnected() {},
+    onDisconnected() {},
+    onConnectionState: (state) => states.push(state),
+    onMode() {},
+    onMessage() {},
+    onError() {},
+  });
+
+  const sessionOptions = calls[0];
+  assert.ok(sessionOptions);
+  sessionOptions.onStatusChange({ status: "connecting" });
+  sessionOptions.onStatusChange({ status: "connected" });
+  sessionOptions.onStatusChange({ status: "disconnecting" });
+  sessionOptions.onStatusChange({ status: "disconnected" });
+  assert.deepEqual(states, ["connecting", "connected", "disconnected"]);
+});

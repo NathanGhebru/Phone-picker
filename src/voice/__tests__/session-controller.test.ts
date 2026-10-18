@@ -49,6 +49,32 @@ test("normalizes interim/final turns, deduplicates confirmed turns, and supports
   );
 });
 
+test("commits the realistic ElevenLabs 1.27 final user transcript payload", async () => {
+  const { adapter, controller, events, turns } = createController();
+  await controller.start("en");
+
+  adapter.emitMessage({
+    source: "user",
+    role: "user",
+    message: "I need a phone with large text.",
+    event_id: 42,
+  });
+  adapter.emitMessage({
+    source: "user",
+    role: "user",
+    message: "I need a phone with large text.",
+    event_id: 42,
+  });
+  // This lacks both the SDK final-transcript shape and an explicit marker.
+  adapter.emitMessage({ source: "user", message: "partial hypothesis" });
+
+  assert.deepEqual(turns, ["I need a phone with large text."]);
+  assert.deepEqual(
+    events.filter((event) => event.type === "transcript").map((event) => [event.text, event.final]),
+    [["I need a phone with large text.", true], ["I need a phone with large text.", true], ["partial hypothesis", false]],
+  );
+});
+
 test("surfaces microphone denial without creating a provider session", async () => {
   const denied = new DOMException("Denied", "NotAllowedError");
   const { adapter, controller, events } = createController(async () => Promise.reject(denied));

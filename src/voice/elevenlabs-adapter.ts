@@ -21,7 +21,7 @@ export interface ElevenLabsStartSessionOptions {
   onMessage(message: unknown): void;
   onError(error: unknown): void;
   onModeChange(mode: { mode: "listening" | "speaking" } | "listening" | "speaking"): void;
-  onStatusChange(status: "connecting" | "connected" | "disconnected"): void;
+  onStatusChange(event: { status: "connecting" | "connected" | "disconnected" | "disconnecting" }): void;
 }
 
 export interface SessionAuthorizer {
@@ -48,7 +48,11 @@ export function createElevenLabsVoiceAdapter(
           const value = typeof mode === "string" ? mode : mode.mode;
           if (value === "listening" || value === "speaking") options.onMode(value);
         },
-        onStatusChange: options.onConnectionState,
+        onStatusChange: ({ status }) => {
+          if (status === "connecting" || status === "connected" || status === "disconnected") {
+            options.onConnectionState(status);
+          }
+        },
       });
     },
   };
