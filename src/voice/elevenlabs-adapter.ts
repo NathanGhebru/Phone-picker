@@ -1,5 +1,5 @@
 import type { Language } from "@/shared/types";
-import type { ProviderSession, VoiceAdapter, VoiceAdapterStartOptions } from "./types";
+import type { ProviderSession, VoiceAdapter, VoiceAdapterStartOptions, VoiceClientTools } from "./types";
 
 type ElevenLabsSession = ProviderSession;
 
@@ -16,6 +16,7 @@ export interface ElevenLabsStartSessionOptions {
   signedUrl: string;
   connectionType: "websocket";
   overrides: { agent: { language: Language } };
+  clientTools?: VoiceClientTools;
   onConnect(): void;
   onDisconnect(): void;
   onMessage(message: unknown): void;
@@ -40,6 +41,7 @@ export function createElevenLabsVoiceAdapter(
         // Signed URLs authorize the official SDK's WebSocket connection.
         connectionType: "websocket",
         overrides: { agent: { language: options.language } },
+        ...(options.clientTools ? { clientTools: options.clientTools } : {}),
         onConnect: options.onConnected,
         onDisconnect: options.onDisconnected,
         onMessage: options.onMessage,

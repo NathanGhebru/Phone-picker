@@ -7,6 +7,7 @@ import type {
   VoiceAdapter,
   VoiceConnectionState,
   VoiceController,
+  VoiceSessionStartOptions,
 } from "./types";
 
 const DUPLICATE_WINDOW_MS = 2_000;
@@ -36,7 +37,7 @@ export class VoiceSessionController implements VoiceController {
     return () => this.turnListeners.delete(listener);
   }
 
-  async start(language: Language): Promise<void> {
+  async start(language: Language, startOptions: VoiceSessionStartOptions = {}): Promise<void> {
     if (this.session || this.state === "connecting") await this.stop();
 
     const generation = ++this.startGeneration;
@@ -57,6 +58,7 @@ export class VoiceSessionController implements VoiceController {
       };
       const session = await this.adapter.start({
         language,
+        ...(startOptions.clientTools ? { clientTools: startOptions.clientTools } : {}),
         onConnected: () => {
           if (generation === this.startGeneration) this.setState("listening");
         },
