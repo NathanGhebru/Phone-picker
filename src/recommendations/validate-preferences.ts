@@ -13,11 +13,11 @@ export function validatePreferences(input: unknown): Validation {
   if (!enumValue(input.language, ['en', 'es'])) return { valid: false, error: 'language must be en or es.' };
   if (!nullableNumber(input.budgetMonthlyTotal) || !nullableNumber(input.maxDeviceUpfront)) return { valid: false, error: 'Budget values must be non-negative numbers or null.' };
   if (!(input.budgetIncludesDevice === true || input.budgetIncludesDevice === false || input.budgetIncludesDevice === null)) return { valid: false, error: 'budgetIncludesDevice must be boolean or null.' };
-  if (!(input.lines === null || (Number.isInteger(input.lines) && input.lines > 0))) return { valid: false, error: 'lines must be a positive integer or null.' };
+  if (!(input.lines === null || (typeof input.lines === 'number' && Number.isInteger(input.lines) && input.lines > 0))) return { valid: false, error: 'lines must be a positive integer or null.' };
   if (!enumValue(input.devicePurchaseMode, ['monthly', 'upfront', 'unknown']) || !enumValue(input.newOrExistingCustomer, ['new', 'existing', 'unknown'])) return { valid: false, error: 'Invalid purchase mode or customer status.' };
   if (!Array.isArray(input.usage) || !input.usage.every((v) => typeof v === 'string') || !Array.isArray(input.accessibilityNeeds) || !input.accessibilityNeeds.every((v) => typeof v === 'string')) return { valid: false, error: 'usage and accessibilityNeeds must be string arrays.' };
   if (!isObject(input.priorities) || !sameKeys(input.priorities, ['camera', 'battery', 'displayReadability', 'simplicity', 'hotspot'])) return { valid: false, error: 'priorities must contain exactly the contract fields.' };
-  if (!Object.values(input.priorities).every((v) => v === null || (Number.isInteger(v) && v >= 1 && v <= 5))) return { valid: false, error: 'Priorities must be integers from 1 to 5 or null.' };
+  if (!Object.values(input.priorities).every((v) => v === null || (typeof v === 'number' && Number.isInteger(v) && v >= 1 && v <= 5))) return { valid: false, error: 'Priorities must be integers from 1 to 5 or null.' };
   if (!isObject(input.eligibility) || !sameKeys(input.eligibility, ['age55Plus']) || !enumValue(input.eligibility.age55Plus, ['yes', 'no', 'unknown'])) return { valid: false, error: 'Invalid eligibility.' };
   return { valid: true, value: input as Preferences };
 }
