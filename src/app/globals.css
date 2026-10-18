@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-border: #e2e8f0;
+  --surface-muted: #f1f5f9;
+  --primary: #0f766e;
+  --primary-hover: #115e59;
+  --primary-active: #134e4a;
+  --primary-focus: #0d9488;
+  --accent: #2563eb;
+  --accent-light: #eff6ff;
+  --focus-ring: #0284c7;
+  --danger: #b91c1c;
+  --danger-surface: #fef2f2;
 }
 
 @theme inline {
@@ -14,13 +26,65 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #090d16;
+    --foreground: #f1f5f9;
+    --surface: #131b2e;
+    --surface-border: #1e293b;
+    --surface-muted: #1a243b;
+    --primary: #14b8a6;
+    --primary-hover: #2dd4bf;
+    --primary-active: #5eead4;
+    --primary-focus: #2dd4bf;
+    --accent: #60a5fa;
+    --accent-light: #172554;
+    --focus-ring: #38bdf8;
+    --danger: #f87171;
+    --danger-surface: #450a0a;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible focus visible rings */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Large clickable touch target minimum */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Custom scrollbar for transcripts that stays clean */
+.transcript-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .transcript-scroll {
+    scrollbar-color: #334155 transparent;
+  }
 }

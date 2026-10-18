@@ -2,6 +2,13 @@ import type {
   Language,
   Recommendation,
 } from "../shared/types";
+import phones from "../data/phones.json";
+import plans from "../data/plans.json";
+
+// Names come from the same checked catalog used by ranking and the UI. Unknown
+// IDs are left intact, never guessed or mapped to a different product.
+const phoneNames = new Map(phones.map(({ id, name }) => [id, name]));
+const planNames = new Map(plans.map(({ id, name }) => [id, name]));
 
 export interface TermExplanation {
   term: string;
@@ -39,24 +46,24 @@ export const REASON_CODE_DICTIONARY: Record<string, { en: string; es: string }> 
     es: "Se ajusta cómodamente a su presupuesto mensual combinado confirmado",
   },
   HIGH_READABILITY_HEURISTIC: {
-    en: "Features a high-readability screen with sharp text and clear contrast",
-    es: "Cuenta con una pantalla de alta legibilidad con texto nítido y buen contraste",
+    en: "The catalog's readability rating matches your preference for easier-to-read text",
+    es: "La valoración de legibilidad del catálogo coincide con su preferencia de texto fácil de leer",
   },
   STRONG_BATTERY_HEURISTIC: {
-    en: "Offers a long-lasting battery designed for dependable all-day use",
-    es: "Ofrece una batería de larga duración diseñada para un uso confiable todo el día",
+    en: "The catalog rates battery life highly for your battery preference",
+    es: "El catálogo valora bien la batería para su preferencia de duración",
   },
   STRONG_CAMERA_HEURISTIC: {
-    en: "Equipped with a high-quality camera for clear photos and video calls",
-    es: "Equipado con una cámara de alta calidad para fotos claras y videollamadas",
+    en: "The catalog's camera rating matches your interest in photos",
+    es: "La valoración de la cámara del catálogo coincide con su interés en las fotos",
   },
   SIMPLE_USE_HEURISTIC: {
-    en: "Straightforward and simple interface that is easy to navigate",
-    es: "Interfaz sencilla y directa que resulta fácil de navegar",
+    en: "The catalog rates ease of use highly for your simplicity preference",
+    es: "El catálogo valora bien la facilidad de uso para su preferencia de sencillez",
   },
   SUPPORTS_HIGHER_USAGE_HEURISTIC: {
-    en: "Includes dedicated support and high-speed data for streaming or mobile hotspot",
-    es: "Incluye soporte y datos de alta velocidad para transmisión de video o punto de acceso móvil",
+    en: "The catalog's hotspot rating matches your higher-data-use preference",
+    es: "La valoración de punto de acceso del catálogo coincide con su preferencia de mayor uso de datos",
   },
   ELIGIBLE_VERIFIED_PRICE_OPTION: {
     en: "Verified eligible combination that meets your base requirements at a confirmed price",
@@ -225,11 +232,31 @@ export function explainRecommendation(
         : ` for an estimated $${rec.estimatedMonthlyTotal}/month`
       : "";
 
+  const phoneName = phoneNames.get(rec.phoneId) ?? rec.phoneId;
+  const planName = planNames.get(rec.planId) ?? rec.planId;
+  const conditions: string[] = [];
+  if (rec.assumptions.some((assumption) => /autopay/i.test(assumption))) {
+    conditions.push(isSpanish
+      ? "El precio del plan depende de cumplir las condiciones de pago automático del catálogo."
+      : "The plan price depends on meeting the catalog's AutoPay conditions.");
+  }
+  if (rec.assumptions.includes("DEVICE_PURCHASED_UPFRONT")) {
+    conditions.push(isSpanish
+      ? "El total mensual no incluye la compra del teléfono, que se paga por adelantado."
+      : "The monthly total excludes the phone purchase, which is paid upfront.");
+  }
+  if (rec.assumptions.includes("DEVICE_PURCHASE_MODE_UNKNOWN_MONTHLY_ESTIMATE_SHOWN_WHEN_AVAILABLE")) {
+    conditions.push(isSpanish
+      ? "Se estima un pago mensual del teléfono; todavía falta confirmar cómo lo comprará."
+      : "A monthly phone payment is estimated; your purchase method still needs confirmation.");
+  }
+  const conditionsText = conditions.length ? ` ${conditions.join(" ")}` : "";
+
   if (isSpanish) {
-    return `Recomiendo esta combinación (${rec.phoneId} con plan ${rec.planId})${priceText} porque: ${reasonsText}.${tradeoffsText}`;
+    return `Recomiendo esta combinación (${phoneName} con plan ${planName})${priceText} porque: ${reasonsText}.${tradeoffsText}${conditionsText}`;
   }
 
-  return `I recommend this combination (${rec.phoneId} with ${rec.planId})${priceText} because: ${reasonsText}.${tradeoffsText}`;
+  return `I recommend this combination (${phoneName} with ${planName})${priceText} because: ${reasonsText}.${tradeoffsText}${conditionsText}`;
 }
 
 export function explainCheaperAlternative(
@@ -258,14 +285,14 @@ export function explainCheaperAlternative(
     ? recommendations.find((r) => r.id === selectedId) || recommendations[0]
     : recommendations[0];
 
-  const currentPrice = current.estimatedMonthlyTotal ?? Infinity;
+  const currentPrice = current.estimatedMonthlyTotal;
 
   // Search for an option that is strictly cheaper
   const strictlyCheaper = recommendations.filter(
     (r) =>
       r.id !== current.id &&
       r.estimatedMonthlyTotal !== null &&
-      r.estimatedMonthlyTotal < currentPrice
+      currentPrice !== null && r.estimatedMonthlyTotal < currentPrice
   );
 
   // Or check if there is an option marked 'lowest_cost' that is cheaper
@@ -286,9 +313,11 @@ export function explainCheaperAlternative(
           : ` Note: ${tradeoffs.join("; ")}.`
         : "";
 
+    const phoneName = phoneNames.get(bestCheaper.phoneId) ?? bestCheaper.phoneId;
+    const planName = planNames.get(bestCheaper.planId) ?? bestCheaper.planId;
     const text = isSpanish
-      ? `Una opción más económica es el ${bestCheaper.phoneId} con el plan ${bestCheaper.planId} por aproximadamente $${bestCheaper.estimatedMonthlyTotal}/mes (en lugar de $${current.estimatedMonthlyTotal}/mes).${tradeoffNote}`
-      : `A cheaper option is the ${bestCheaper.phoneId} with the ${bestCheaper.planId} plan for approximately $${bestCheaper.estimatedMonthlyTotal}/month (compared to $${current.estimatedMonthlyTotal}/month).${tradeoffNote}`;
+      ? `Una opción más económica es el ${phoneName} con el plan ${planName} por aproximadamente $${bestCheaper.estimatedMonthlyTotal}/mes (en lugar de $${current.estimatedMonthlyTotal}/mes).${tradeoffNote}`
+      : `A cheaper option is the ${phoneName} with the ${planName} plan for approximately $${bestCheaper.estimatedMonthlyTotal}/month (compared to $${current.estimatedMonthlyTotal}/month).${tradeoffNote}`;
 
     return {
       foundCheaper: true,
@@ -298,9 +327,13 @@ export function explainCheaperAlternative(
   }
 
   // No strictly cheaper qualifying result exists among returned options
-  const text = isSpanish
-    ? `Las opciones mostradas ya son las combinaciones de menor costo que cumplen con sus requisitos (desde $${currentPrice === Infinity ? "0" : currentPrice}/mes). ¿Le gustaría fijar un presupuesto específico más bajo o ajustar alguna preferencia?`
-    : `The options shown are already the lowest-cost combinations that satisfy your requirements (starting at $${currentPrice === Infinity ? "0" : currentPrice}/month). Would you like to specify a lower budget target or adjust your requirements?`;
+  const text = currentPrice === null
+    ? isSpanish
+      ? "No hay un precio mensual verificado para la opción actual, así que no puedo confirmar una comparación de precios."
+      : "There is no verified monthly price for the current option, so I cannot confirm a cheaper comparison."
+    : isSpanish
+      ? `Esta opción ya es la de menor costo entre las recomendaciones devueltas ($${currentPrice}/mes). ¿Le gustaría fijar un presupuesto más bajo o ajustar alguna preferencia?`
+      : `This option is already the lowest-cost among the returned recommendations ($${currentPrice}/month). Would you like to specify a lower budget target or adjust your requirements?`;
 
   return {
     foundCheaper: false,
@@ -308,4 +341,3 @@ export function explainCheaperAlternative(
     text,
   };
 }
-
