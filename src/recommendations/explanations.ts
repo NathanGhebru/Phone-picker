@@ -13,7 +13,12 @@ export function explanationCodes(phone: PhoneCatalogItem, plan: PlanCatalogItem,
   if (phone.accessibility.largeTextFeatures === 'unknown' && preferences.accessibilityNeeds.length) tradeoffs.add('ACCESSIBILITY_COMPATIBILITY_UNVERIFIED');
   if (cost.monthlyDeviceCost === null && preferences.devicePurchaseMode !== 'upfront') tradeoffs.add('DEVICE_MONTHLY_PRICE_UNAVAILABLE');
   if (cost.monthlyDeviceCost !== null && preferences.devicePurchaseMode !== 'upfront') tradeoffs.add('DEVICE_FINANCING_ESTIMATE_EXCLUDES_TAXES_FEES_CREDITS');
+  if (taxesAndFeesAreExcluded(plan.taxAndFeeAssumptions)) tradeoffs.add('TAXES_AND_FEES_EXCLUDED_FROM_MONTHLY_ESTIMATE');
   if (phone.scores.camera !== null && phone.scores.camera < 3) tradeoffs.add('LOWER_CAMERA_HEURISTIC');
   if (reasons.size === 0) reasons.add('ELIGIBLE_VERIFIED_PRICE_OPTION');
   return { reasons: [...reasons].sort(), tradeoffs: [...tradeoffs].sort() };
+}
+
+function taxesAndFeesAreExcluded(assumption: string | undefined): boolean {
+  return typeof assumption === 'string' && /tax|fee|surcharge/i.test(assumption) && /not included|excluded|additional/i.test(assumption);
 }

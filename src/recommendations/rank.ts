@@ -17,16 +17,33 @@ const questionsByReason: Record<string, string> = {
   PLAN_MAXIMUM_LINE_COUNT_EXCEEDED: 'This plan does not support the number of lines you need.',
 };
 const questionFor = (reason: string | undefined): string | undefined => questionsByReason[reason ?? ''];
+const clarificationReasons = new Set([
+  'BUDGET_SCOPE_UNCONFIRMED',
+  'LINE_COUNT_REQUIRED',
+  'AGE_55_PLUS_ELIGIBILITY_UNCONFIRMED',
+  'DEVICE_PURCHASE_MODE_REQUIRED_FOR_UPFRONT_BUDGET',
+]);
 
 function pickRecommendations(candidates: Candidate[]): Recommendation[] {
   if (candidates.length === 0) return [];
   const ordered = [...candidates].sort((a, b) => b.rankScore - a.rankScore || a.id.localeCompare(b.id));
-  const chosen: Candidate[] = [ordered[0]];
-  const cheapest = [...candidates].sort((a, b) => (a.estimatedMonthlyTotal ?? Infinity) - (b.estimatedMonthlyTotal ?? Infinity) || a.id.localeCompare(b.id)).find((item) => item.id !== chosen[0].id);
-  if (cheapest) chosen.push(cheapest);
-  const alternate = ordered.find((item) => !chosen.some((selected) => selected.id === item.id) && !chosen.some((selected) => selected.phoneId === item.phoneId || selected.planId === item.planId));
-  if (alternate) chosen.push(alternate);
-  return chosen.slice(0, 3).map((item, index) => ({ ...item, label: index === 0 ? 'best_match' : index === 1 ? 'lowest_cost' : 'alternative' }));
+  const best = ordered[0];
+  const byCost = [...candidates].sort((a, b) => (a.estimatedMonthlyTotal ?? Infinity) - (b.estimatedMonthlyTotal ?? Infinity) || a.id.localeCompare(b.id));
+  const lowestCost = byCost[0].estimatedMonthlyTotal;
+  const bestIsLowestCost = best.estimatedMonthlyTotal === lowestCost;
+  const cheapestDistinct = byCost.find((item) => item.id !== best.id && (!bestIsLowestCost || item.estimatedMonthlyTotal === lowestCost));
+  const selected: Array<{ item: Candidate; label: Recommendation['label'] }> = [{ item: best, label: 'best_match' }];
+  if (cheapestDistinct) selected.push({ item: cheapestDistinct, label: 'lowest_cost' });
+  const alternate = ordered.find((item) => !selected.some((selectedItem) => selectedItem.item.id === item.id)
+    && !selected.some((selectedItem) => selectedItem.item.phoneId === item.phoneId || selectedItem.item.planId === item.planId));
+  if (alternate) selected.push({ item: alternate, label: 'alternative' });
+  return selected.slice(0, 3).map(({ item, label }) => ({
+    ...item,
+    label,
+    assumptions: label === 'lowest_cost' && item.estimatedMonthlyTotal === best.estimatedMonthlyTotal
+      ? [...item.assumptions, 'LOWEST_COST_TIED_WITH_BEST_MATCH']
+      : item.assumptions,
+  }));
 }
 
 /** Deterministic, language-independent catalog ranking. */
@@ -59,7 +76,8 @@ export function recommend(preferencesInput: Preferences, catalog: Catalog): Reco
     });
   }
   const recommendations = pickRecommendations(candidates);
-  const questions = [...rejected].sort().map(questionFor).filter((value): value is string => Boolean(value));
+  const questionReasons = recommendations.length === 0 ? rejected : new Set([...rejected].filter((reason) => clarificationReasons.has(reason)));
+  const questions = [...questionReasons].sort().map(questionFor).filter((value): value is string => Boolean(value));
   const warnings: string[] = [];
   if (catalog.meta?.sourceDisclaimer) warnings.push(catalog.meta.sourceDisclaimer);
   if (preferences.budgetMonthlyTotal !== null && preferences.budgetIncludesDevice === false) warnings.push('BUDGET_APPLIES_TO_PLAN_ONLY_DEVICE_COST_SHOWN_SEPARATELY');

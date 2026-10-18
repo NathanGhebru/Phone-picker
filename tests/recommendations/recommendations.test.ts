@@ -33,6 +33,7 @@ test('a $60 confirmed combined budget returns only affordable, priced bundles', 
   const result = recommend(base(), catalog);
   assert.ok(result.recommendations.length > 0);
   assert.ok(result.recommendations.every((r) => r.estimatedMonthlyTotal !== null && r.estimatedMonthlyTotal <= 60));
+  assert.ok(!result.questions.some((question) => question.includes('raise the combined monthly budget')));
 });
 test('reduced budget reranks to the cheaper bundle', () => {
   const normal = recommend(base(), catalog);
@@ -64,7 +65,23 @@ test('preserves AutoPay and tax assumptions without applying an additional disco
   assert.equal(value?.monthlyPlanPrice, 35);
   assert.ok(value?.assumptions.includes('TEST: price already includes eligible AutoPay; do not subtract another discount.'));
   assert.ok(value?.assumptions.includes('TEST: taxes and fees are excluded from this base price.'));
+  assert.ok(value?.tradeoffs.includes('TAXES_AND_FEES_EXCLUDED_FROM_MONTHLY_ESTIMATE'));
   assert.ok(result.warnings.includes('TEST: taxes, fees, and connection charges are excluded.'));
+});
+test('a tied lowest-cost bundle discloses the tie without implying savings', () => {
+  const tiedCatalog: Catalog = {
+    ...catalog,
+    phones: [
+      { ...catalog.phones[0], id: 'best', scores: { camera: 5, battery: 5, displayReadability: 5, simplicity: 5 } },
+      { ...catalog.phones[0], id: 'tied', scores: { camera: 1, battery: 1, displayReadability: 3, simplicity: 1 } },
+    ],
+    plans: [{ ...catalog.plans[0], id: 'only-plan' }],
+  };
+  const result = recommend(base(), tiedCatalog);
+  const best = result.recommendations.find((item) => item.label === 'best_match');
+  const lowest = result.recommendations.find((item) => item.label === 'lowest_cost');
+  assert.equal(best?.estimatedMonthlyTotal, lowest?.estimatedMonthlyTotal);
+  assert.ok(lowest?.assumptions.includes('LOWEST_COST_TIED_WITH_BEST_MATCH'));
 });
 test('plan max-lines restrictions are enforced even when a price is present', () => {
   const threeLines = recommend({ ...base(), lines: 3, budgetMonthlyTotal: 200 }, { ...catalog, plans: [{ ...catalog.plans[0], monthlyPriceByLines: { 1: 35, 2: 60, 3: 80 } }] });
@@ -84,6 +101,7 @@ test('an impossible budget has a useful zero-result warning', () => {
   const result = recommend({ ...base(), budgetMonthlyTotal: 10 }, catalog);
   assert.equal(result.recommendations.length, 0);
   assert.ok(result.warnings.includes('NO_VERIFIED_BUNDLE_MEETS_THE_COMBINED_MONTHLY_BUDGET'));
+  assert.ok(result.questions.some((question) => question.includes('raise the combined monthly budget')));
 });
 test('language does not change ranking or cost', () => {
   const en = recommend(base(), catalog);
