@@ -1,0 +1,125 @@
+[
+  {
+    "id": "tmobile-essentials-saver-2",
+    "name": "T-Mobile Essentials Saver 2.0",
+    "monthlyPriceByLines": {
+      "1": 50.0,
+      "2": 80.0
+    },
+    "undiscountedMonthlyPriceByLines": {
+      "1": 55.0,
+      "2": 90.0
+    },
+    "autoPayDiscountPerLine": 5.0,
+    "autoPayAssumptions": "Pricing reflects a $5/line monthly discount with eligible AutoPay using a linked checking account (ACH) or debit card. Without AutoPay, cost is $55 for 1 line or $90 for 2 lines. Standard credit cards and credit-card backed mobile wallets (Apple Pay / Google Pay with credit card) are NOT eligible for AutoPay discount.",
+    "taxAndFeeAssumptions": "Taxes, government surcharges, and regulatory fees (such as the Telco Recovery Fee) are not included and are billed additionally depending on state and local jurisdiction (variable by billing address; not a fixed universal amount).",
+    "hotspotScore": 2,
+    "supportsUsage": [
+      "calls",
+      "text",
+      "browsing",
+      "social_media",
+      "video"
+    ],
+    "restrictions": {
+      "age55Plus": false,
+      "maxLines": 2
+    },
+    "dataAndHotspotFeatures": [
+      "50 GB of high-speed mobile data per month; speeds may be slowed during congestion",
+      "Unlimited 3G mobile hotspot data allowance",
+      "Standard-definition (480p) streaming video resolution"
+    ],
+    "eligibilityCriteria": [
+      "Available to both new and existing T-Mobile single or dual-line customers",
+      "Strict account limit of maximum 2 voice lines"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone-plans",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "tmobile-essentials-choice-55-2",
+    "name": "T-Mobile Essentials Choice 55 2.0",
+    "monthlyPriceByLines": {
+      "1": 45.0,
+      "2": 60.0
+    },
+    "undiscountedMonthlyPriceByLines": {
+      "1": 50.0,
+      "2": 70.0
+    },
+    "autoPayDiscountPerLine": 5.0,
+    "autoPayAssumptions": "Pricing reflects a $5/line monthly discount with eligible AutoPay using a linked checking account (ACH) or debit card. Without AutoPay, cost is $50 for 1 line or $70 for 2 lines. Standard credit cards and credit-card backed Apple Pay are NOT eligible for AutoPay discount.",
+    "taxAndFeeAssumptions": "Taxes and government/regulatory fees are not included and are billed additionally depending on state and local jurisdiction (variable by billing address; not a fixed universal amount).",
+    "hotspotScore": 2,
+    "supportsUsage": [
+      "calls",
+      "text",
+      "browsing",
+      "social_media",
+      "video"
+    ],
+    "restrictions": {
+      "age55Plus": true,
+      "maxLines": 2
+    },
+    "dataAndHotspotFeatures": [
+      "50 GB of premium high-speed mobile data per month",
+      "Unlimited 3G mobile hotspot data allowance",
+      "Standard-definition (480p) streaming video resolution",
+      "Scam Shield protection included"
+    ],
+    "eligibilityCriteria": [
+      "Primary account holder must be 55 years of age or older",
+      "Age verification required via valid government ID within 45 days of activation",
+      "Maximum of 2 voice lines per senior discount account",
+      "Available to both new and existing customers meeting age qualification"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone-plans/unlimited-55-senior-discount-plans",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "tmobile-go5g",
+    "name": "T-Mobile Go5G",
+    "monthlyPriceByLines": {
+      "1": 75.0,
+      "2": 130.0,
+      "3": 155.0
+    },
+    "undiscountedMonthlyPriceByLines": {
+      "1": 80.0,
+      "2": 140.0,
+      "3": 170.0
+    },
+    "autoPayDiscountPerLine": 5.0,
+    "autoPayAssumptions": "Pricing reflects a $5/line monthly discount with eligible AutoPay using a linked checking account (ACH) or debit card ($10 discount for 2 lines, $15 discount for 3 lines). Without AutoPay, cost is $80 for 1 line, $140 for 2 lines, and $170 for 3 lines. Note on advertised rates: T-Mobile promotional marketing frequently advertises 3 lines for $130 by applying a conditional '3rd Line on Us' monthly bill credit for qualifying new account activations, but the standard non-promotional recurring rate per Broadband Facts is $155 with AutoPay ($170 undiscounted).",
+    "taxAndFeeAssumptions": "Monthly recurring service plan pricing INCLUDES standard regulatory fees and monthly sales taxes for qualifying consumer accounts.",
+    "hotspotScore": 4,
+    "supportsUsage": [
+      "calls",
+      "text",
+      "browsing",
+      "social_media",
+      "video",
+      "streaming",
+      "hotspot",
+      "travel"
+    ],
+    "restrictions": {
+      "age55Plus": false
+    },
+    "dataAndHotspotFeatures": [
+      "100 GB premium high-speed mobile data per month before potential deprioritization",
+      "15 GB high-speed mobile hotspot data included, then unlimited at 3G speeds",
+      "Standard-definition (480p) video streaming",
+      "Monthly taxes and regulatory fees included in base service price",
+      "Standard non-promotional 3-line pricing is $155 with AutoPay ($170 without AutoPay)"
+    ],
+    "eligibilityCriteria": [
+      "Available to both new and existing T-Mobile accounts",
+      "Supports accounts with 1 to 5+ voice lines"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone-plans",
+    "sourceCheckedAt": "2026-10-17"
+  }
+]

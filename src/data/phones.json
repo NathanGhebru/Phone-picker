@@ -1,0 +1,206 @@
+[
+  {
+    "id": "motorola-moto-g-5g-2024",
+    "name": "Motorola moto g 5G - 2024",
+    "brand": "Motorola",
+    "listPrice": 199.99,
+    "financingMonths": 24,
+    "screenInches": 6.6,
+    "batteryCapacityMah": 5000,
+    "batteryInfo": "5,000 mAh long-lasting battery with up to 2 days of usage per charge; supports 18W fast charging.",
+    "cameraInfo": "Dual rear camera: 50 MP main (f/1.8) with Quad Pixel technology + 2 MP macro. 8 MP front camera.",
+    "displayInfo": "6.6-inch HD+ (1612 x 720) IPS LCD with smooth 120Hz refresh rate and high brightness mode.",
+    "scores": {
+      "camera": 2,
+      "battery": 4,
+      "displayReadability": 4,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Very low full retail entry price ($199.99) and modest monthly installment ($8.34/mo over 24 months)",
+      "Large 6.6-inch display with 120Hz high refresh rate for smooth scrolling",
+      "Substantial 5,000 mAh battery capacity for multi-day basic use"
+    ],
+    "tradeoffs": [
+      "Lower 720p HD+ display resolution compared to sharper 1080p OLED screens",
+      "Entry-level Snapdragon processor best suited for everyday essentials rather than 3D gaming"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/motorola-moto-g-5g-2024",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "t-mobile-revvl-7-5g",
+    "name": "T-Mobile REVVL 7 5G",
+    "brand": "T-Mobile",
+    "listPrice": 199.99,
+    "financingMonths": 24,
+    "screenInches": 6.58,
+    "batteryCapacityMah": 5000,
+    "batteryInfo": "5,000 mAh battery supporting all-day connectivity and 15W fast charging.",
+    "cameraInfo": "Dual rear camera system: 50 MP primary lens + 2 MP depth sensor. 8 MP front selfie camera.",
+    "displayInfo": "6.58-inch FHD+ (2408 x 1080) display with 120Hz refresh rate for clear text and sharp readability.",
+    "scores": {
+      "camera": 2,
+      "battery": 4,
+      "displayReadability": 4,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Full HD+ (1080p) sharp display resolution at a budget $199.99 price point",
+      "Dependable 5,000 mAh battery life",
+      "Clean carrier-integrated Android interface with simple navigation"
+    ],
+    "tradeoffs": [
+      "Entry-level camera performance in dimly lit conditions",
+      "Single mono speaker audio output"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/t-mobile-revvl-7-5g",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "samsung-galaxy-a16-5g",
+    "name": "Samsung Galaxy A16 5G",
+    "brand": "Samsung",
+    "listPrice": 259.99,
+    "financingMonths": 24,
+    "screenInches": 6.7,
+    "batteryCapacityMah": 5000,
+    "batteryInfo": "5,000 mAh battery with 25W Super Fast Charging support.",
+    "cameraInfo": "Triple rear camera: 50 MP main (f/1.8) + 5 MP ultra-wide + 2 MP macro. 13 MP front camera.",
+    "displayInfo": "6.7-inch FHD+ (2340 x 1080) Super AMOLED display with 90Hz refresh rate and rich color contrast.",
+    "scores": {
+      "camera": 3,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Expansive 6.7-inch Super AMOLED FHD+ screen with vibrant high-contrast text rendering",
+      "Industry-leading 6 years of guaranteed Android OS upgrades in a budget phone",
+      "Affordable retail price ($259.99) and low installment payment ($10.84/mo over 24 months)"
+    ],
+    "tradeoffs": [
+      "Modest speaker volume compared to stereo setups",
+      "Charging adapter not included in standard retail packaging"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-a16-5g",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "google-pixel-8a",
+    "name": "Google Pixel 8a (128GB)",
+    "brand": "Google",
+    "listPrice": 499.99,
+    "financingMonths": 24,
+    "screenInches": 6.1,
+    "batteryCapacityMah": 4492,
+    "batteryInfo": "4,492 mAh battery with Extreme Battery Saver (up to 72 hours), fast wireless charging, and Qi certification.",
+    "cameraInfo": "Dual rear camera: 64 MP Quad PD wide with OIS + 13 MP ultra-wide. 13 MP front camera. Best Take, Magic Eraser, and Real Tone.",
+    "displayInfo": "6.1-inch Actua OLED display (2400 x 1080) with 120Hz refresh rate and up to 2,000 nits peak outdoor brightness.",
+    "scores": {
+      "camera": 5,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Flagship-grade camera capabilities with Google AI computational photography at an accessible $499.99 price",
+      "Superb 2,000 nit Actua OLED display with outstanding text sharpness and legibility",
+      "Full Android accessibility suite with Live Transcribe, Live Caption, and 7 years of Pixel feature drops"
+    ],
+    "tradeoffs": [
+      "Charging speed capped at 18W",
+      "Thicker display bezels than premium tier flagships"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/google-pixel-8a",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "apple-iphone-15",
+    "name": "Apple iPhone 15 (128GB)",
+    "brand": "Apple",
+    "listPrice": 629.99,
+    "financingMonths": 24,
+    "screenInches": 6.1,
+    "batteryCapacityMah": 3349,
+    "batteryInfo": "Up to 20 hours video playback; fast-charge capable (up to 50% charge in ~30 minutes with 20W adapter); MagSafe wireless charging.",
+    "cameraInfo": "Advanced dual camera: 48 MP Main with 2x optical-quality telephoto + 12 MP Ultra Wide. 12 MP TrueDepth front camera.",
+    "displayInfo": "6.1-inch Super Retina XDR OLED display with Dynamic Island, 2,000 nits peak outdoor brightness, and 1,000 nits typical brightness.",
+    "scores": {
+      "camera": 4,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 5
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Refined iOS ecosystem with industry-standard accessibility (Dynamic Type, VoiceOver, MFi hearing devices)",
+      "Brilliant 2,000 nits peak outdoor OLED display and interactive Dynamic Island",
+      "Lower price point ($629.99 retail, $26.25/mo) with universal USB-C connectivity"
+    ],
+    "tradeoffs": [
+      "Fixed 60Hz display refresh rate",
+      "Does not include dedicated optical telephoto hardware lens (uses 2x sensor crop)"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/apple-iphone-15",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "apple-iphone-16",
+    "name": "Apple iPhone 16 (128GB)",
+    "brand": "Apple",
+    "listPrice": 829.99,
+    "financingMonths": 24,
+    "screenInches": 6.1,
+    "batteryCapacityMah": 3561,
+    "batteryInfo": "All-day battery life (up to 22 hours video playback) with fast charging and 25W MagSafe wireless charging.",
+    "cameraInfo": "Advanced dual-camera system: 48 MP Fusion camera with 2x optical telephoto option, 12 MP ultra-wide with macro support, and dedicated physical Camera Control button.",
+    "displayInfo": "6.1-inch Super Retina XDR OLED display with up to 2,000 nits peak outdoor brightness and 1 nit minimum brightness.",
+    "scores": {
+      "camera": 5,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Top-tier camera system with 48MP resolution and physical Camera Control button for easy tactile shooting",
+      "Exceptional outdoor display visibility (up to 2,000 nits) and superior iOS text rendering",
+      "Comprehensive accessibility ecosystem (VoiceOver, Dynamic Type, MFi hearing support, Apple Intelligence readiness)"
+    ],
+    "tradeoffs": [
+      "Higher upfront retail price ($829.99) and monthly installment ($34.59/mo over 24 months)",
+      "Display refresh rate capped at 60Hz"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/apple-iphone-16",
+    "sourceCheckedAt": "2026-10-17"
+  }
+]
