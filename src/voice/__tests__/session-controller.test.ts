@@ -3,6 +3,7 @@ import test from "node:test";
 import type { AppEvent } from "@/shared/types";
 import { createMockVoiceAdapter } from "../mock-adapter";
 import { VoiceSessionController } from "../session-controller";
+import type { ProviderSession, VoiceAdapter, VoiceAdapterStartOptions } from "../types";
 
 function createController(permission: () => Promise<void> = async () => undefined) {
   const adapter = createMockVoiceAdapter();
@@ -49,6 +50,31 @@ test("normalizes interim/final turns, deduplicates confirmed turns, and supports
   );
 });
 
+test("commits the realistic ElevenLabs 1.27 final user transcript payload", async () => {
+  const { adapter, controller, events, turns } = createController();
+  await controller.start("en");
+
+  adapter.emitMessage({
+    source: "user",
+    role: "user",
+    message: "I need a phone with large text.",
+    event_id: 42,
+  });
+  adapter.emitMessage({
+    source: "user",
+    role: "user",
+    message: "I need a phone with large text.",
+    event_id: 42,
+  });
+  adapter.emitMessage({ source: "user", message: "partial hypothesis" });
+
+  assert.deepEqual(turns, ["I need a phone with large text."]);
+  assert.deepEqual(
+    events.filter((event) => event.type === "transcript").map((event) => [event.text, event.final]),
+    [["I need a phone with large text.", true], ["I need a phone with large text.", true], ["partial hypothesis", false]],
+  );
+});
+
 test("surfaces microphone denial without creating a provider session", async () => {
   const denied = new DOMException("Denied", "NotAllowedError");
   const { adapter, controller, events } = createController(async () => Promise.reject(denied));
@@ -68,4 +94,40 @@ test("returns to idle when a live provider session disconnects", async () => {
   adapter.disconnect();
 
   assert.deepEqual(events.at(-1), { type: "listening_state", state: "idle" });
+});
+
+test("forwards tools per session while transcript subscriptions stay observational", async () => {
+  const starts: VoiceAdapterStartOptions[] = [];
+  const adapter: VoiceAdapter = {
+    async start(options): Promise<ProviderSession> {
+      starts.push(options);
+      options.onConnected();
+      return { async endSession() {} };
+    },
+  };
+  const controller = new VoiceSessionController(adapter, async () => undefined);
+  let transcriptObservations = 0;
+  let toolInvocations = 0;
+  const firstTools = {
+    process_voice_turn: async () => {
+      toolInvocations += 1;
+      return "first";
+    },
+  };
+  const secondTools = {
+    process_voice_turn: async () => "second",
+  };
+  controller.subscribeConfirmedTurns(() => { transcriptObservations += 1; });
+
+  await controller.start("en", { clientTools: firstTools });
+  starts[0]?.onMessage({ source: "user", role: "user", message: "Hello", event_id: 1 });
+  assert.equal(transcriptObservations, 1);
+  assert.equal(toolInvocations, 0);
+  assert.strictEqual(starts[0]?.clientTools, firstTools);
+
+  await controller.stop();
+  await controller.start("en", { clientTools: secondTools });
+  assert.strictEqual(starts[1]?.clientTools, secondTools);
+  assert.notStrictEqual(starts[1]?.clientTools, firstTools);
+  await controller.stop();
 });

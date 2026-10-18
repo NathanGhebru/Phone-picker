@@ -187,6 +187,10 @@ export function extractFromUtterance(
 
   // Extract budget
   const budgetInfo = extractBudget(normalized);
+  if (budgetInfo.maxUpfront !== null) {
+    entities.maxDeviceUpfront = budgetInfo.maxUpfront;
+    patch.maxDeviceUpfront = budgetInfo.maxUpfront;
+  }
   if (budgetInfo.amount !== null) {
     entities.budgetMonthlyTotal = budgetInfo.amount;
     patch.budgetMonthlyTotal = budgetInfo.amount;
@@ -359,8 +363,9 @@ function isCorrectionMarker(text: string): boolean {
   );
 }
 
-function extractBudget(text: string): { amount: number | null; includesDevice: boolean | null } {
+function extractBudget(text: string): { amount: number | null; maxUpfront: number | null; includesDevice: boolean | null } {
   let amount: number | null = null;
+  let maxUpfront: number | null = null;
   let includesDevice: boolean | null = null;
 
   // Pattern for "$40", "40 dollars", "40 dólares", "presupuesto de 60"
@@ -386,38 +391,57 @@ function extractBudget(text: string): { amount: number | null; includesDevice: b
     cien: 100,
   };
 
-  const regexDollar = /\$\s*(\d{1,4})/i;
-  const regexWord = /\b(\d{1,4})\s*(?:dollars?|d[oó]lares|bucks)\b/i;
-  const regexBudgetWord = /(?:budget\s+is|spend\s+(?:about\s+)?|presupuesto\s+(?:es\s+de\s+)?|gastar\s+(?:unos\s+)?)\s*(?:about\s+)?(?:\$)?\s*(\d{1,4})/i;
-  const regexNamed = new RegExp(
-    `\\b(${Object.keys(wordNumbers).join("|")})\\s*(?:dollars?|d[oó]lares|al\\s+mes|a\\s+month)?\\b`,
-    "i"
+  const units: Record<string, number> = {
+    zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9,
+    ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16,
+    seventeen: 17, eighteen: 18, nineteen: 19,
+    cero: 0, uno: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7, ocho: 8, nueve: 9,
+    diez: 10, once: 11, doce: 12, trece: 13, catorce: 14, quince: 15, dieciseis: 16,
+    diecisiete: 17, dieciocho: 18, diecinueve: 19, veintiuno: 21, veintidos: 22,
+    veintitres: 23, veinticuatro: 24, veinticinco: 25, veintiseis: 26, veintisiete: 27,
+    veintiocho: 28, veintinueve: 29, ciento: 100, doscientos: 200, trescientos: 300,
+    cuatrocientos: 400, quinientos: 500, seiscientos: 600, setecientos: 700, ochocientos: 800,
+    novecientos: 900, thousand: 1000, mil: 1000,
+  };
+  // Preserve spoken compound amounts rather than matching just their first word.
+  const values = { ...wordNumbers, ...units };
+  const numberWord = `(?:${Object.keys(values).join("|")})`;
+  const numberWords = new RegExp(`\\b${numberWord}(?:(?:[ -]+(?:and|y)[ -]+|[ -]+)${numberWord})*\\b`, "gi");
+  let numeric = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(numberWords, (phrase) => {
+    let total = 0;
+    let part = 0;
+    for (const token of phrase.split(/[ -]+/)) {
+      if (token === "and" || token === "y") continue;
+      if (token === "hundred") part = (part || 1) * 100;
+      else if (token === "thousand" || token === "mil") { total += (part || 1) * 1000; part = 0; }
+      else part += values[token];
+    }
+    return String(total + part);
+  });
+  // Match the complete amount; never silently turn $2,500 into $2 or $60.50 into $60.
+  const money = "(?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:[.,]\\d{1,2})?";
+  const currency = "(?:dollars?|d[oó]lares|bucks)";
+  const parseMoney = (value: string) => Number(
+    /^\d{1,3}(?:,\d{3})+(?:\.\d{1,2})?$/.test(value) ? value.replaceAll(",", "") : value.replace(",", ".")
   );
+  const upfront = new RegExp(`\\$?\\s*(${money})\\s*(?:${currency}\\s*)?(?:upfront|up front|por adelantado|al contado)\\b`, "gi");
+  numeric = numeric.replace(upfront, (_match, value: string) => {
+    const parsed = parseMoney(value);
+    if (parsed >= 0 && parsed <= 5000) maxUpfront = parsed;
+    return " ";
+  });
 
-  const matchDollar = regexDollar.exec(text);
-  const matchWord = regexWord.exec(text);
-  const matchBudget = regexBudgetWord.exec(text);
-  const matchNamed = regexNamed.exec(text);
-
-  if (matchDollar) {
-    amount = parseInt(matchDollar[1], 10);
-  } else if (matchWord) {
-    amount = parseInt(matchWord[1], 10);
-  } else if (matchBudget) {
-    amount = parseInt(matchBudget[1], 10);
-  } else if (matchNamed) {
-    const word = matchNamed[1].toLowerCase();
-    if (wordNumbers[word]) {
-      amount = wordNumbers[word];
-    }
-  }
-
-  // Standalone numbers in correction context e.g. "Actually, 40." or "Actually, make that 40."
-  if (amount === null && isCorrectionMarker(text)) {
-    const standalone = /\b(\d{2,4})\b/.exec(text);
-    if (standalone) {
-      amount = parseInt(standalone[1], 10);
-    }
+  const monthly = new RegExp(`\\$?\\s*(${money})\\s*(?:${currency}\\s*)?(?:a month|per month|each month|monthly|al mes|por mes|mensuales)\\b`, "i").exec(numeric);
+  const dollar = new RegExp(`\\$\\s*(${money})`, "i").exec(numeric);
+  const word = new RegExp(`\\b(${money})\\s*${currency}\\b`, "i").exec(numeric);
+  const budget = new RegExp(`(?:budget\\s+(?:is\\s+|of\\s+)?|spend\\s+(?:about\\s+)?|presupuesto\\s+(?:(?:es\\s+)?de\\s+)?|gastar\\s+(?:unos\\s+)?)\\s*\\$?\\s*(${money})`, "i").exec(numeric);
+  const correction = isCorrectionMarker(text)
+    ? new RegExp(`(?:actually[,\\s]+(?:make that\\s+)?|i meant\\s+|make that\\s+|en realidad[,\\s]+|quer[ií]a decir\\s+)(${money})[.!\\s]*$`, "i").exec(numeric)
+    : null;
+  const match = monthly ?? dollar ?? word ?? budget ?? correction;
+  if (match) {
+    const parsed = parseMoney(match[1]);
+    if (parsed > 0 && parsed <= 2000) amount = parsed;
   }
 
   // Check device inclusion:
@@ -442,7 +466,7 @@ function extractBudget(text: string): { amount: number | null; includesDevice: b
     includesDevice = false;
   }
 
-  return { amount, includesDevice };
+  return { amount, maxUpfront, includesDevice };
 }
 
 function extractLines(text: string): number | null {
@@ -613,4 +637,3 @@ function extractEligibility(text: string): Eligibility | null {
   // If user says "my mom is 70", do NOT set age55Plus: 'yes'. Return null so it stays 'unknown'.
   return null;
 }
-

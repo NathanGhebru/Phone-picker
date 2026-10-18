@@ -111,19 +111,18 @@ export function resolvePendingFollowUpAnswer(
   const normalized = text.toLowerCase().trim();
 
   if (lastQuestionKey === "budget_scope") {
+    // An explicit scope outranks a conversational "yes" ("yes, just the plan").
+    if (
+      /\b(?:just\s+(?:for\s+)?(?:the\s+)?plan|plan\s+only|service\s+only|without\s+(?:the\s+)?phone|solo\s+(?:el\s+)?plan|solo\s+servicio|sin\s+(?:el\s+)?tel[eé]fono)\b/i.test(normalized)
+    ) {
+      return { budgetIncludesDevice: false };
+    }
     if (
       /\b(?:both|phone\s+and\s+plan|including|includes|yes|s[ií]|ambos|tanto|incluyendo)\b/i.test(
         normalized
       )
     ) {
       return { budgetIncludesDevice: true };
-    }
-    if (
-      /\b(?:just\s+(?:the\s+)?plan|plan\s+only|service\s+only|solo\s+el\s+plan|solo\s+servicio)\b/i.test(
-        normalized
-      )
-    ) {
-      return { budgetIncludesDevice: false };
     }
   }
 
@@ -140,17 +139,26 @@ export function resolvePendingFollowUpAnswer(
       tres: 3,
       cuatro: 4,
     };
-    const digitMatch = /\b(\d{1,2})\b/.exec(normalized);
+    const digitMatch = /\b(\d{1,2})\s*(?:phone\s+)?(?:lines?|l[ií]neas?)\b/.exec(normalized)
+      ?? /^(?:just\s+|only\s+|solo\s+)?(\d{1,2})[.!\s]*$/.exec(normalized);
     if (digitMatch) {
-      return { lines: parseInt(digitMatch[1], 10) };
+      const lines = Number(digitMatch[1]);
+      return lines >= 1 && lines <= 20 ? { lines } : null;
     }
     for (const [w, n] of Object.entries(wordNumbers)) {
-      if (new RegExp(`\\b${w}\\b`, "i").test(normalized)) {
+      if (new RegExp(`\\b${w}\\s+(?:phone\\s+)?(?:lines?|l[ií]neas?)\\b|^(?:just\\s+|only\\s+|solo\\s+)?${w}[.!\\s]*$`, "i").test(normalized)) {
         return { lines: n };
       }
     }
   }
 
+  if (lastQuestionKey === "budget_amount") {
+    const amount = /^(?:about\s+|unos\s+)?\$?\s*(\d{1,4}(?:[.,]\d{1,2})?)[.!\s]*$/.exec(normalized);
+    if (amount) {
+      const value = Number(amount[1].replace(",", "."));
+      if (value > 0 && value <= 2000) return { budgetMonthlyTotal: value };
+    }
+  }
+
   return null;
 }
-

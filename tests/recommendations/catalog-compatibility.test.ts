@@ -12,7 +12,7 @@ import type { Preferences } from '../../src/recommendations';
 type Expect<T extends true> = T;
 type AuditedCatalogIsAcceptedByEngine = AuditedCatalog extends Parameters<typeof recommend>[1] ? true : false;
 
-type _CatalogCompatibility = Expect<AuditedCatalogIsAcceptedByEngine>;
+export type _CatalogCompatibility = Expect<AuditedCatalogIsAcceptedByEngine>;
 
 const preferences: Preferences = {
   language: 'en',

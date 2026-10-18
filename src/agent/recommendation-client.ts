@@ -23,12 +23,35 @@ export interface RecommendationClientOptions {
   baseUrl?: string;
   fetchFn?: typeof fetch;
   enableLocalFallback?: boolean;
+  timeoutMs?: number;
+}
+
+function isRecommendationResponse(value: unknown): value is RecommendationResponse {
+  if (!value || typeof value !== "object") return false;
+  const data = value as Record<string, unknown>;
+  const strings = (items: unknown): items is string[] =>
+    Array.isArray(items) && items.every((item) => typeof item === "string");
+  const price = (amount: unknown) => amount === null ||
+    (typeof amount === "number" && Number.isFinite(amount) && amount >= 0);
+  return typeof data.catalogAsOf === "string" && strings(data.warnings) &&
+    strings(data.questions) && Array.isArray(data.recommendations) &&
+    data.recommendations.every((item: unknown) => {
+      if (!item || typeof item !== "object") return false;
+      const rec = item as Record<string, unknown>;
+      return [rec.id, rec.phoneId, rec.planId].every((id) => typeof id === "string" && id.length > 0) &&
+        ["best_match", "lowest_cost", "alternative"].includes(String(rec.label)) &&
+        rec.currency === "USD" && price(rec.estimatedMonthlyTotal) &&
+        price(rec.monthlyPlanPrice) && price(rec.estimatedMonthlyDeviceCost) &&
+        typeof rec.rankScore === "number" && Number.isFinite(rec.rankScore) &&
+        strings(rec.reasons) && strings(rec.tradeoffs) && strings(rec.assumptions) && strings(rec.sourceUrls);
+    });
 }
 
 export class RecommendationClient {
   private baseUrl: string;
   private fetchFn: typeof fetch;
   private enableLocalFallback: boolean;
+  private timeoutMs: number;
 
   constructor(options: RecommendationClientOptions = {}) {
     this.baseUrl = options.baseUrl ?? "";
@@ -42,6 +65,7 @@ export class RecommendationClient {
       process.env.NODE_ENV === "production";
 
     this.enableLocalFallback = options.enableLocalFallback ?? (isProduction ? false : false);
+    this.timeoutMs = options.timeoutMs ?? 15_000;
   }
 
   /**
@@ -60,6 +84,8 @@ export class RecommendationClient {
       throw new RecommendationClientError("No fetch implementation available.");
     }
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
     try {
       const response = await this.fetchFn(url, {
         method: "POST",
@@ -68,6 +94,7 @@ export class RecommendationClient {
           Accept: "application/json",
         },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -84,7 +111,10 @@ export class RecommendationClient {
         );
       }
 
-      const data = (await response.json()) as RecommendationResponse;
+      const data: unknown = await response.json();
+      if (!isRecommendationResponse(data)) {
+        throw new RecommendationClientError("Recommendation service returned an invalid response.");
+      }
       return data;
     } catch (err: unknown) {
       if (err instanceof RecommendationClientError) {
@@ -99,6 +129,8 @@ export class RecommendationClient {
 
       const msg = err instanceof Error ? err.message : String(err);
       throw new RecommendationClientError(`Failed to reach recommendation service: ${msg}`);
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
@@ -123,4 +155,3 @@ export class RecommendationClient {
     return MOCK_FIXTURE_EN_RECOMMENDATIONS;
   }
 }
-

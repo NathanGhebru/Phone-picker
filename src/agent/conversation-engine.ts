@@ -107,8 +107,9 @@ export class ConversationEngine {
 
     // If answering a pending follow-up question, combine it
     if (pendingAnswerPatch) {
-      patch = { ...patch, ...pendingAnswerPatch };
+      patch = { ...pendingAnswerPatch, ...patch };
     }
+    if (language !== currentPrefs.language) patch = { ...patch, language };
 
     // Apply preference patch if any fields were identified
     if (Object.keys(patch).length > 0) {
@@ -212,36 +213,32 @@ export class ConversationEngine {
           if (recResponse.recommendations.length > 0) {
             const topRec = recResponse.recommendations[0];
             selectedId = topRec.id;
-
-            const isSpanish = language === "es";
-            const costStr =
-              topRec.estimatedMonthlyTotal !== null
-                ? `$${topRec.estimatedMonthlyTotal}/month`
-                : "estimated monthly price";
-            const costStrEs =
-              topRec.estimatedMonthlyTotal !== null
-                ? `$${topRec.estimatedMonthlyTotal}/mes`
-                : "precio mensual estimado";
-
-            assistantText = isSpanish
-              ? `He encontrado ${recResponse.recommendations.length} opciones recomendadas. La mejor coincidencia es el ${topRec.phoneId} con el plan ${topRec.planId} por aproximadamente ${costStrEs}.`
-              : `I found ${recResponse.recommendations.length} recommended options. The best match is the ${topRec.phoneId} with the ${topRec.planId} plan for about ${costStr}.`;
+            const introduction = language === "es"
+              ? `He encontrado ${recResponse.recommendations.length} opciones del catálogo. `
+              : `I found ${recResponse.recommendations.length} catalog options. `;
+            assistantText = introduction + explainRecommendation(topRec, language);
+            if (updatedPrefs.budgetIncludesDevice === false) {
+              assistantText += language === "es"
+                ? " Su presupuesto se aplica solo al plan; el teléfono se paga aparte."
+                : " Your budget applies to the plan only; the phone costs extra.";
+            }
           } else {
             // Acceptance Test 9: Empty recommendations honest explanation
-            const warningMsg = recResponse.warnings?.[0];
+            selectedId = null;
             assistantText =
-              warningMsg ||
-              (language === "es"
-                ? `No encontramos opciones que cumplan con todos sus requisitos y presupuesto. ¿Le gustaría probar con un presupuesto mensual diferente?`
-                : `No options match all your verified requirements and budget. Would you like to adjust your monthly budget or preferences?`);
+              language === "es"
+                ? "No encontramos opciones verificadas en el catálogo que cumplan con todos sus requisitos y presupuesto. ¿Le gustaría ajustar su presupuesto mensual o preferencias?"
+                : "No verified catalog options match all your requirements and budget. Would you like to adjust your monthly budget or preferences?";
           }
-        } catch (err: unknown) {
+        } catch {
           // Acceptance Test 15: Safe handling of API errors
-          const errMsg = err instanceof Error ? err.message : String(err);
+          // Previous results are not verified for this turn's updated preferences.
+          activeRecs = null;
+          selectedId = null;
           assistantText =
             language === "es"
-              ? `Disculpe, ocurrió un problema al consultar las recomendaciones: ${errMsg}.`
-              : `Sorry, there was an issue retrieving recommendations: ${errMsg}.`;
+              ? "Disculpe, ocurrió un problema al consultar las recomendaciones. No puedo confirmar opciones ni precios ahora. Sus preferencias están guardadas; puede pedir que lo intente de nuevo."
+              : "Sorry, there was an issue retrieving recommendations. I cannot confirm options or prices right now. Your preferences are saved; you can ask me to try again.";
         }
         break;
       }
@@ -286,4 +283,3 @@ export const conversationEngine = new ConversationEngine();
 export async function processTurn(params: ProcessTurnParams): Promise<ProcessTurnResult> {
   return conversationEngine.processTurn(params);
 }
-
