@@ -41,3 +41,4 @@ HERRAMIENTAS:
 export function getSystemPrompt(language: Language = "en"): string {
   return language === "es" ? AGENT_SYSTEM_PROMPT_ES : AGENT_SYSTEM_PROMPT_EN;
 }
+

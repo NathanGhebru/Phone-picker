@@ -2,17 +2,14 @@ import type {
   Eligibility,
   Language,
   Preferences,
-  PreferenceUpdate,
   Priority,
 } from "../shared/types";
 import {
-  createPreferenceUpdate,
   validatePreferencePatch,
 } from "./preference-state";
 import type {
   DetectedIntentType,
   ExtractedEntities,
-  TurnSource,
 } from "./types";
 
 /**
@@ -141,7 +138,7 @@ export function extractFromUtterance(
   patch: Partial<Preferences>;
 } {
   const normalized = text.toLowerCase().trim();
-  const entities: ExtractedEntities = {};
+  const entities: ExtractedEntities = { language };
   const patch: Partial<Preferences> = {};
 
   // Check for terminology questions first
@@ -616,3 +613,4 @@ function extractEligibility(text: string): Eligibility | null {
   // If user says "my mom is 70", do NOT set age55Plus: 'yes'. Return null so it stays 'unknown'.
   return null;
 }
+

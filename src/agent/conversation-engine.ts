@@ -3,7 +3,6 @@ import type {
   Language,
   Preferences,
   PreferenceUpdate,
-  Recommendation,
   RecommendationResponse,
 } from "../shared/types";
 import {
@@ -19,14 +18,11 @@ import {
   extractFromUtterance,
 } from "./preference-extractor";
 import {
-  createInitialPreferences,
   createPreferenceUpdate,
   mergePreferences,
-  validatePreferences,
 } from "./preference-state";
 import {
   RecommendationClient,
-  RecommendationClientError,
 } from "./recommendation-client";
 import type {
   EphemeralConversationState,
@@ -290,3 +286,4 @@ export const conversationEngine = new ConversationEngine();
 export async function processTurn(params: ProcessTurnParams): Promise<ProcessTurnResult> {
   return conversationEngine.processTurn(params);
 }
+

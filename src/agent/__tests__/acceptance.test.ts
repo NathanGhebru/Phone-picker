@@ -4,7 +4,6 @@ import { ConversationEngine, processTurn } from "../conversation-engine";
 import {
   explainCheaperAlternative,
   explainRecommendation,
-  explainTerm,
   translateReasonCode,
 } from "../explanations";
 import {
@@ -12,7 +11,6 @@ import {
   MOCK_FIXTURE_NO_MATCH_RESPONSE,
 } from "../fixtures";
 import {
-  extractFromUtterance,
   validateStructuredLLMOutput,
 } from "../preference-extractor";
 import {
@@ -24,9 +22,8 @@ import {
 } from "../preference-state";
 import {
   RecommendationClient,
-  RecommendationClientError,
 } from "../recommendation-client";
-import type { Preferences, RecommendationResponse } from "../../shared/types";
+import type { Preferences } from "../../shared/types";
 
 describe("VoiceMatch Agent - 16 Acceptance Criteria", () => {
   // Criterion 1: English input produces valid Preferences updates
@@ -440,3 +437,4 @@ describe("VoiceMatch Agent - 16 Acceptance Criteria", () => {
     );
   });
 });
+

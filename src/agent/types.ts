@@ -4,8 +4,6 @@ import type {
   Language,
   Preferences,
   PreferenceUpdate,
-  Priority,
-  Recommendation,
   RecommendationResponse,
 } from "../shared/types";
 
@@ -75,3 +73,4 @@ export interface ProcessTurnResult {
   conversationState: EphemeralConversationState;
   events: AppEvent[];
 }
+

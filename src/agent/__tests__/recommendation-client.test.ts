@@ -6,7 +6,6 @@ import {
 } from "../recommendation-client";
 import {
   MOCK_FIXTURE_EN_RECOMMENDATIONS,
-  MOCK_FIXTURE_NO_MATCH_RESPONSE,
 } from "../fixtures";
 import { createInitialPreferences } from "../preference-state";
 
@@ -37,6 +36,7 @@ describe("Recommendation Client", () => {
 
     const res = await client.getRecommendations(prefs);
     assert.strictEqual(res.recommendations.length, 3);
+    assert.ok(capturedHeaders !== undefined);
 
     const parsed = JSON.parse(capturedBody);
     assert.deepStrictEqual(parsed, { preferences: prefs });
@@ -111,3 +111,4 @@ describe("Recommendation Client", () => {
     assert.ok(res.warnings[0].includes("No bundles meet"));
   });
 });
+
