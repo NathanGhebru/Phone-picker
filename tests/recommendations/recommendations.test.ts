@@ -1,5 +1,6 @@
 /** Synthetic fixtures only. They are deliberately not T-Mobile offers or prices. */
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { recommend, validatePreferences } from '../../src/recommendations';
 import type { Catalog, Preferences } from '../../src/recommendations';
@@ -20,6 +21,13 @@ const catalog: Catalog = {
   ],
 };
 const base = (): Preferences => ({ language: 'en', budgetMonthlyTotal: 60, budgetIncludesDevice: true, maxDeviceUpfront: null, lines: 1, devicePurchaseMode: 'monthly', newOrExistingCustomer: 'unknown', priorities: { camera: null, battery: 3, displayReadability: 5, simplicity: null, hotspot: null }, usage: ['streaming'], accessibilityNeeds: ['large_text'], eligibility: { age55Plus: 'no' } });
+
+test('all JSON preference fixtures conform to the shared preference contract', () => {
+  for (const filename of ['en-budget-parent.json', 'es-budget-parent.json', 'cheaper-update.json', 'unknown-eligibility.json', 'no-match.json']) {
+    const fixture = JSON.parse(readFileSync(new URL(`./fixtures/${filename}`, import.meta.url), 'utf8'));
+    assert.equal(validatePreferences(fixture).valid, true, filename);
+  }
+});
 
 test('a $60 confirmed combined budget returns only affordable, priced bundles', () => {
   const result = recommend(base(), catalog);
