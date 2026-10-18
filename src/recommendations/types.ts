@@ -68,11 +68,15 @@ export type PlanCatalogItem = {
   name: string;
   /** Exact verified base monthly price keyed by total line count. Missing is unavailable, never zero. */
   monthlyPriceByLines: Record<number, number | null | undefined>;
+  /** Pricing terms supplied by the audited catalog; the engine never reapplies discounts. */
+  autoPayAssumptions?: string;
+  /** Whether taxes, fees, or one-time charges are excluded from the base price. */
+  taxAndFeeAssumptions?: string;
   sourceUrl: string;
   sourceCheckedAt: string;
   hotspotScore: number | null;
   supportsUsage: string[];
-  restrictions?: { age55Plus?: boolean; customer?: 'new' | 'existing' };
+  restrictions?: { age55Plus?: boolean; customer?: 'new' | 'existing'; maxLines?: number };
 };
 
 export type Catalog = { asOf: string; phones: PhoneCatalogItem[]; plans: PlanCatalogItem[] };

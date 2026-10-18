@@ -7,6 +7,7 @@ export function checkEligibility(phone: PhoneCatalogItem, plan: PlanCatalogItem,
   if (preferences.maxDeviceUpfront !== null && preferences.devicePurchaseMode === 'unknown') return { eligible: false, reason: 'DEVICE_PURCHASE_MODE_REQUIRED_FOR_UPFRONT_BUDGET' };
   if (cost.monthlyPlanPrice === null) return { eligible: false, reason: 'PLAN_PRICE_UNAVAILABLE_FOR_LINE_COUNT' };
   if (preferences.devicePurchaseMode !== 'upfront' && cost.monthlyDeviceCost === null) return { eligible: false, reason: 'DEVICE_MONTHLY_PRICE_UNAVAILABLE' };
+  if (plan.restrictions?.maxLines !== undefined && preferences.lines > plan.restrictions.maxLines) return { eligible: false, reason: 'PLAN_MAXIMUM_LINE_COUNT_EXCEEDED' };
   if (plan.restrictions?.age55Plus && preferences.eligibility.age55Plus !== 'yes') return { eligible: false, reason: preferences.eligibility.age55Plus === 'unknown' ? 'AGE_55_PLUS_ELIGIBILITY_UNCONFIRMED' : 'AGE_55_PLUS_NOT_ELIGIBLE' };
   if (plan.restrictions?.customer && preferences.newOrExistingCustomer !== plan.restrictions.customer) return { eligible: false, reason: 'CUSTOMER_STATUS_NOT_ELIGIBLE' };
   if (preferences.maxDeviceUpfront !== null && cost.upfrontDeviceCost !== null && cost.upfrontDeviceCost > preferences.maxDeviceUpfront) return { eligible: false, reason: 'DEVICE_UPFRONT_BUDGET_EXCEEDED' };

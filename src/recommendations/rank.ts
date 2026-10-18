@@ -14,6 +14,7 @@ const questionsByReason: Record<string, string> = {
   DEVICE_PURCHASE_MODE_REQUIRED_FOR_UPFRONT_BUDGET: 'Will you buy the device monthly or pay upfront?',
   COMBINED_MONTHLY_BUDGET_EXCEEDED: 'Would you like to raise the combined monthly budget or consider a lower-cost device?',
   PLAN_PRICE_UNAVAILABLE_FOR_LINE_COUNT: 'Please choose a plan with a verified price for your number of lines.',
+  PLAN_MAXIMUM_LINE_COUNT_EXCEEDED: 'This plan does not support the number of lines you need.',
 };
 const questionFor = (reason: string | undefined): string | undefined => questionsByReason[reason ?? ''];
 

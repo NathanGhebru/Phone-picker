@@ -12,7 +12,7 @@ const catalog: Catalog = {
     { id: 'unknown-price', name: 'Unknown price', listPrice: null, financingMonths: null, sourceUrl: 'https://example.test/unknown', sourceCheckedAt: '2026-10-17', scores: { camera: 5, battery: 5, displayReadability: 5, simplicity: 5 }, accessibility: { hearingCompatibility: 'unknown', largeTextFeatures: 'unknown' }, strengths: [], tradeoffs: [] },
   ],
   plans: [
-    { id: 'value', name: 'Value test plan', monthlyPriceByLines: { 1: 35, 2: 60 }, sourceUrl: 'https://example.test/value', sourceCheckedAt: '2026-10-17', hotspotScore: 3, supportsUsage: [] },
+    { id: 'value', name: 'Value test plan', monthlyPriceByLines: { 1: 35, 2: 60 }, autoPayAssumptions: 'TEST: price already includes eligible AutoPay; do not subtract another discount.', taxAndFeeAssumptions: 'TEST: taxes and fees are excluded from this base price.', sourceUrl: 'https://example.test/value', sourceCheckedAt: '2026-10-17', hotspotScore: 3, supportsUsage: [], restrictions: { maxLines: 2 } },
     { id: 'premium', name: 'Premium test plan', monthlyPriceByLines: { 1: 45, 2: 75 }, sourceUrl: 'https://example.test/premium', sourceCheckedAt: '2026-10-17', hotspotScore: 5, supportsUsage: ['streaming'] },
     { id: 'senior', name: '55+ test plan', monthlyPriceByLines: { 1: 30 }, sourceUrl: 'https://example.test/senior', sourceCheckedAt: '2026-10-17', hotspotScore: 4, supportsUsage: [], restrictions: { age55Plus: true } },
     { id: 'missing', name: 'Missing price plan', monthlyPriceByLines: { 2: 50 }, sourceUrl: 'https://example.test/missing', sourceCheckedAt: '2026-10-17', hotspotScore: 5, supportsUsage: [] },
@@ -41,6 +41,23 @@ test('uses exact single-line and multi-line prices', () => {
 test('missing prices are never treated as zero', () => {
   const result = recommend(base(), catalog);
   assert.ok(result.recommendations.every((r) => r.phoneId !== 'unknown-price' && r.planId !== 'missing'));
+});
+test('monthly installments require a verified positive financing term', () => {
+  const withUnknownFinancing: Catalog = { ...catalog, phones: [{ ...catalog.phones[0], financingMonths: null }, ...catalog.phones.slice(1)] };
+  const result = recommend(base(), withUnknownFinancing);
+  assert.ok(result.recommendations.every((r) => r.phoneId !== 'basic'));
+});
+test('preserves AutoPay and tax assumptions without applying an additional discount', () => {
+  const result = recommend(base(), catalog);
+  const value = result.recommendations.find((r) => r.planId === 'value');
+  assert.equal(value?.monthlyPlanPrice, 35);
+  assert.ok(value?.assumptions.includes('TEST: price already includes eligible AutoPay; do not subtract another discount.'));
+  assert.ok(value?.assumptions.includes('TEST: taxes and fees are excluded from this base price.'));
+});
+test('plan max-lines restrictions are enforced even when a price is present', () => {
+  const threeLines = recommend({ ...base(), lines: 3, budgetMonthlyTotal: 200 }, { ...catalog, plans: [{ ...catalog.plans[0], monthlyPriceByLines: { 1: 35, 2: 60, 3: 80 } }] });
+  assert.equal(threeLines.recommendations.length, 0);
+  assert.ok(threeLines.questions.some((q) => q.includes('does not support')));
 });
 test('unknown budget scope asks rather than claiming affordability', () => {
   const result = recommend({ ...base(), budgetIncludesDevice: null }, catalog);
