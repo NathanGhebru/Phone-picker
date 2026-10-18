@@ -84,15 +84,15 @@
     "monthlyPriceByLines": {
       "1": 75.0,
       "2": 130.0,
-      "3": 130.0
+      "3": 155.0
     },
     "undiscountedMonthlyPriceByLines": {
       "1": 80.0,
       "2": 140.0,
-      "3": 145.0
+      "3": 170.0
     },
     "autoPayDiscountPerLine": 5.0,
-    "autoPayAssumptions": "Pricing reflects a $5/line monthly discount with eligible AutoPay using a linked checking account or debit card. Without AutoPay, add $5 per line each month.",
+    "autoPayAssumptions": "Pricing reflects a $5/line monthly discount with eligible AutoPay using a linked checking account (ACH) or debit card ($10 discount for 2 lines, $15 discount for 3 lines). Without AutoPay, cost is $80 for 1 line, $140 for 2 lines, and $170 for 3 lines. Note on advertised rates: T-Mobile promotional marketing frequently advertises 3 lines for $130 by applying a conditional '3rd Line on Us' monthly bill credit for qualifying new account activations, but the standard non-promotional recurring rate per Broadband Facts is $155 with AutoPay ($170 undiscounted).",
     "taxAndFeeAssumptions": "Monthly recurring service plan pricing INCLUDES standard regulatory fees and monthly sales taxes for qualifying consumer accounts.",
     "hotspotScore": 4,
     "supportsUsage": [
@@ -112,7 +112,8 @@
       "100 GB premium high-speed mobile data per month before potential deprioritization",
       "15 GB high-speed mobile hotspot data included, then unlimited at 3G speeds",
       "Standard-definition (480p) video streaming",
-      "Monthly taxes and regulatory fees included in base service price"
+      "Monthly taxes and regulatory fees included in base service price",
+      "Standard non-promotional 3-line pricing is $155 with AutoPay ($170 without AutoPay)"
     ],
     "eligibilityCriteria": [
       "Available to both new and existing T-Mobile accounts",

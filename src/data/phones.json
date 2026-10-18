@@ -68,18 +68,18 @@
     "sourceCheckedAt": "2026-10-17"
   },
   {
-    "id": "samsung-galaxy-s24-fe",
-    "name": "Samsung Galaxy S24 FE",
+    "id": "samsung-galaxy-a16-5g",
+    "name": "Samsung Galaxy A16 5G",
     "brand": "Samsung",
-    "listPrice": 649.99,
+    "listPrice": 259.99,
     "financingMonths": 24,
     "screenInches": 6.7,
-    "batteryCapacityMah": 4700,
-    "batteryInfo": "4,700 mAh battery with intelligent power management and 25W fast charging support.",
-    "cameraInfo": "Pro-grade triple camera: 50 MP wide with OIS + 8 MP telephoto (3x optical zoom) + 12 MP ultra-wide. 10 MP front camera.",
-    "displayInfo": "6.7-inch Dynamic AMOLED 2X with adaptive 120Hz refresh rate and up to 1,900 nits peak brightness for superb outdoor visibility.",
+    "batteryCapacityMah": 5000,
+    "batteryInfo": "5,000 mAh battery with 25W Super Fast Charging support.",
+    "cameraInfo": "Triple rear camera: 50 MP main (f/1.8) + 5 MP ultra-wide + 2 MP macro. 13 MP front camera.",
+    "displayInfo": "6.7-inch FHD+ (2340 x 1080) Super AMOLED display with 90Hz refresh rate and rich color contrast.",
     "scores": {
-      "camera": 4,
+      "camera": 3,
       "battery": 4,
       "displayReadability": 5,
       "simplicity": 4
@@ -90,30 +90,30 @@
       "screenReaderSupported": "yes"
     },
     "strengths": [
-      "Expansive 6.7-inch bright Dynamic AMOLED 2X display with exceptional outdoor readability",
-      "True 3x optical telephoto camera with optical image stabilization for distant subjects",
-      "Comprehensive Samsung One UI accessibility features (ASHA hearing aid streaming, font size sliders, high contrast mode)"
+      "Expansive 6.7-inch Super AMOLED FHD+ screen with vibrant high-contrast text rendering",
+      "Industry-leading 6 years of guaranteed Android OS upgrades in a budget phone",
+      "Affordable retail price ($259.99) and low installment payment ($10.84/mo over 24 months)"
     ],
     "tradeoffs": [
-      "Heavier physical weight (213 grams) and larger hand footprint",
-      "Midrange list price ($649.99) requiring higher monthly installment ($27.09/mo)"
+      "Modest speaker volume compared to stereo setups",
+      "Charging adapter not included in standard retail packaging"
     ],
-    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-s24-fe",
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-a16-5g",
     "sourceCheckedAt": "2026-10-17"
   },
   {
-    "id": "samsung-galaxy-s24",
-    "name": "Samsung Galaxy S24",
-    "brand": "Samsung",
-    "listPrice": 799.99,
+    "id": "google-pixel-8a",
+    "name": "Google Pixel 8a (128GB)",
+    "brand": "Google",
+    "listPrice": 499.99,
     "financingMonths": 24,
-    "screenInches": 6.2,
-    "batteryCapacityMah": 4000,
-    "batteryInfo": "4,000 mAh battery with fast wired charging, Fast Wireless Charging 2.0, and Wireless PowerShare.",
-    "cameraInfo": "Triple camera: 50 MP wide (f/1.8, OIS) + 10 MP telephoto (3x optical zoom, OIS) + 12 MP ultra-wide. 12 MP front camera.",
-    "displayInfo": "6.2-inch FHD+ Dynamic AMOLED 2X with 1-120Hz adaptive refresh rate and industry-leading 2,600 nits peak brightness.",
+    "screenInches": 6.1,
+    "batteryCapacityMah": 4492,
+    "batteryInfo": "4,492 mAh battery with Extreme Battery Saver (up to 72 hours), fast wireless charging, and Qi certification.",
+    "cameraInfo": "Dual rear camera: 64 MP Quad PD wide with OIS + 13 MP ultra-wide. 13 MP front camera. Best Take, Magic Eraser, and Real Tone.",
+    "displayInfo": "6.1-inch Actua OLED display (2400 x 1080) with 120Hz refresh rate and up to 2,000 nits peak outdoor brightness.",
     "scores": {
-      "camera": 4,
+      "camera": 5,
       "battery": 4,
       "displayReadability": 5,
       "simplicity": 4
@@ -124,15 +124,15 @@
       "screenReaderSupported": "yes"
     },
     "strengths": [
-      "Class-leading 2,600 nits peak outdoor brightness making text effortless to read in direct sunlight",
-      "Compact, ergonomic chassis (167g) ideal for single-handed use",
-      "Guaranteed 7 generations of Android OS and security upgrades"
+      "Flagship-grade camera capabilities with Google AI computational photography at an accessible $499.99 price",
+      "Superb 2,000 nit Actua OLED display with outstanding text sharpness and legibility",
+      "Full Android accessibility suite with Live Transcribe, Live Caption, and 7 years of Pixel feature drops"
     ],
     "tradeoffs": [
-      "Premium list price ($799.99 retail, $33.34/mo over 24 months)",
-      "Smaller 4,000 mAh battery capacity compared to plus/ultra tiers"
+      "Charging speed capped at 18W",
+      "Thicker display bezels than premium tier flagships"
     ],
-    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-s24",
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/google-pixel-8a",
     "sourceCheckedAt": "2026-10-17"
   },
   {

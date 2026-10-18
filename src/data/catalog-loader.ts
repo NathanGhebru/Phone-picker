@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { Catalog, CatalogMeta, PhoneRecord, PlanRecord } from './catalog-types.ts';
-import { validateCatalog } from './catalog-validator.ts';
+import type { Catalog, CatalogMeta, PhoneRecord, PlanRecord } from './catalog-types';
+import { validateCatalog } from './catalog-validator';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

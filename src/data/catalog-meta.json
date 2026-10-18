@@ -1,13 +1,14 @@
 {
   "asOf": "2026-10-17",
-  "catalogVersion": "1.1.0",
+  "catalogVersion": "1.2.0",
   "pricingConventions": {
     "monthlyPriceByLinesType": "advertised_autopay_discounted",
     "monthlyPriceByLinesExplanation": "monthlyPriceByLines contains the standard advertised monthly base rate reflecting enrollment in AutoPay ($5/line monthly discount up to plan line limits). Undiscounted rates (without AutoPay) are explicitly documented in undiscountedMonthlyPriceByLines and autoPayAssumptions.",
     "customerEligibility": "All listed plans are valid for both new and existing customers unless explicitly restricted under restrictions.customer (e.g. new accounts only).",
     "autoPayConditions": "Discounts ($5/line) require monthly enrollment in AutoPay with an eligible linked checking account (ACH) or debit card. Standard credit cards and credit-card backed mobile wallets (Apple Pay / Google Pay with credit card) are NOT eligible for the T-Mobile AutoPay discount.",
-    "taxesAndFeesExclusions": "For Essentials plans (Essentials Saver 2.0, Essentials Choice 55 2.0), monthly plan prices exclude state and local sales taxes, government surcharges, and regulatory fees (e.g. Telco Recovery Fee), which vary by billing jurisdiction and are billed additionally. For Go5G, standard monthly taxes and regulatory fees are included in the base rate. All device purchases and monthly financing exclude local sales tax (due upfront at checkout) and the one-time $35 Device Connection Charge per line."
+    "taxesAndFeesExclusions": "For Essentials plans (Essentials Saver 2.0, Essentials Choice 55 2.0), monthly plan prices exclude state and local sales taxes, government surcharges, and regulatory fees (e.g. Telco Recovery Fee), which vary by billing jurisdiction and are billed additionally. For Go5G, standard monthly taxes and regulatory fees are included in the base rate. All device purchases and monthly financing exclude local sales tax (due upfront at checkout) and the one-time $35 Device Connection Charge per line.",
+    "baselineNonPromotionalPricing": "Go5G 3-line pricing is recorded as the standard non-promotional recurring rate of $155/mo with AutoPay ($170 undiscounted without AutoPay). Promotional '3rd Line on Us' rates ($130) are documented in assumptions and not baked into standard baseline calculations."
   },
-  "sourceDisclaimer": "Prices, financing terms, and plan details are verified from official T-Mobile US listings and FCC Broadband Facts as of October 17, 2026. Prices are estimates for hackathon demonstration purposes.",
+  "sourceDisclaimer": "Prices, financing terms, and plan details are verified from official T-Mobile US listings and FCC Broadband Facts disclosures as of October 17, 2026. Prices are estimates for hackathon demonstration purposes.",
   "heuristicRatingDisclaimer": "All 1-5 feature scores (camera, battery, displayReadability, simplicity, hotspotScore) are internal ranking heuristics defined by the VoiceMatch team for deterministic matching. They are NOT official carrier ratings or independent benchmark scores."
 }

@@ -1,4 +1,4 @@
-import type { Catalog, PhoneRecord, PlanRecord, ValidationResult } from './catalog-types.ts';
+import type { Catalog, PhoneRecord, PlanRecord, ValidationResult } from './catalog-types';
 
 const URL_REGEX = /^https?:\/\/[^\s$.?#].[^\s]*$/i;
 const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;

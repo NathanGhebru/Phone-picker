@@ -2,8 +2,8 @@
 
 **Workstream:** Person 3 (Catalog & Provenance Owner)  
 **Catalog As-Of Date:** 2026-10-17  
-**Catalog Version:** 1.1.0  
-**Current Milestone:** 6 Verified Phones & 3 Verified Plans (`person3/catalog`)
+**Catalog Version:** 1.2.0  
+**Current Milestone:** Audited 6 Currently Available Phones & 3 Verified Plans (`person3/catalog`)
 
 ---
 
@@ -12,26 +12,30 @@
 To ensure absolute price honesty and prevent algorithmic bias, VoiceMatch enforces strict data provenance standards:
 
 ### Decision 1: Monthly Plan Price Format (`monthlyPriceByLines`)
-- `monthlyPriceByLines` contains the **standard advertised monthly rate reflecting enrollment in AutoPay** (e.g., $50 for 1 line on Essentials Saver 2.0; $45 for 1 line on Essentials Choice 55 2.0; $75 for 1 line on Go5G).
-- This matches standard customer-facing quotes and consumer expectation while shopping.
-- For complete transparency, each plan also contains `undiscountedMonthlyPriceByLines` (recording Broadband Facts prices without AutoPay: $55/1 line on Essentials Saver 2.0; $50/1 line on Essentials Choice 55 2.0; $80/1 line on Go5G) and `autoPayDiscountPerLine` ($5.00/line).
+- `monthlyPriceByLines` contains the **standard ongoing base monthly price reflecting enrollment in AutoPay** ($50 for 1 line on Essentials Saver 2.0; $45 for 1 line on Essentials Choice 55 2.0; $75 for 1 line on Go5G; $155 for 3 lines on Go5G).
+- This reflects standard recurring customer bills under typical customer setup.
+- For complete auditability and consumer protection, each plan also contains `undiscountedMonthlyPriceByLines` (the official pre-discount Broadband Facts prices without AutoPay) and `autoPayDiscountPerLine` ($5.00/line).
 
 ### Decision 2: Customer Eligibility (New vs. Existing)
-- All plans currently cataloged are available to **both new and existing customers**, subject to specific line count and eligibility limits:
-  - `tmobile-essentials-saver-2`: New and existing customers; capped at maximum 2 voice lines per account.
-  - `tmobile-essentials-choice-55-2`: New and existing customers; requires primary account holder age 55+ with government ID verification within 45 days; capped at maximum 2 voice lines.
+- All plans currently cataloged are open to **both new and existing customers**, subject to specific line count and eligibility limits:
+  - `tmobile-essentials-saver-2`: New and existing customers; strictly capped at maximum 2 voice lines per account.
+  - `tmobile-essentials-choice-55-2`: New and existing customers; requires primary account holder age 55+ with government ID verification within 45 days; strictly capped at maximum 2 voice lines.
   - `tmobile-go5g`: New and existing customers; supports 1 to 5+ voice lines.
 
 ### Decision 3: Payment Method Conditions for AutoPay Discount
 - The $5/line monthly AutoPay discount is **strictly conditional** on enrolling in automatic payments using an **eligible bank account (ACH/checking) or debit card**.
-- Under T-Mobile's updated policy, standard credit cards and credit-card backed mobile wallets (Apple Pay or Google Pay linked to credit cards) **do not qualify** for the AutoPay discount.
+- Under T-Mobile's updated national policy, standard credit cards and credit-card backed mobile wallets (Apple Pay or Google Pay linked to credit cards) **do not qualify** for the AutoPay discount.
 
 ### Decision 4: Taxes, Regulatory Fees, and Upfront Charges
-- **Essentials Tiers (`tmobile-essentials-saver-2`, `tmobile-essentials-choice-55-2`):** Base monthly prices **exclude** state and local sales taxes, government surcharges, and carrier regulatory fees (such as the Telco Recovery Fee). These fees vary widely by state and municipality and are billed additionally.
+- **Essentials Tiers (`tmobile-essentials-saver-2`, `tmobile-essentials-choice-55-2`):** Base monthly prices **exclude** state and local sales taxes, government surcharges, and carrier regulatory fees (such as the Telco Recovery Fee). These fees vary widely by state and municipality and are billed additionally (variable; not a fixed universal amount).
 - **Go5G Tier (`tmobile-go5g`):** Monthly recurring service pricing **includes** standard sales taxes and monthly regulatory fees for qualifying consumer accounts.
-- **Device Purchases (EIP Financing):** Monthly device installments are based on 0% APR full retail price divided by 24 months for well-qualified buyers. Device financing **excludes** local sales taxes (which must be paid upfront at purchase/checkout) and the one-time **$35 Assisted/Device Connection Charge** per activated line.
+- **Device Purchases (EIP Financing):** Monthly device installments are based on 0% APR full retail price divided by 24 months for well-qualified buyers. Device financing **excludes** local sales taxes (which must be paid upfront at checkout) and the one-time **$35 Assisted/Device Connection Charge** per activated line.
 
-### Decision 5: Internal Heuristics vs. Official Ratings
+### Decision 5: Non-Promotional Baseline Pricing (Go5G 3-Line Verification)
+- Advertised carrier marketing frequently highlights "3 lines for $130" on Go5G by incorporating a conditional "3rd Line on Us" promotional bill credit for new switcher lines.
+- In accordance with our data honesty policy, the catalog's base rate records the **official non-promotional Broadband Facts recurring rate of $155 with AutoPay ($170 undiscounted without AutoPay)** for 3 lines ($75 line 1 + $55 line 2 + $25 line 3). The promotional $130 offer is documented in plan assumptions and notes.
+
+### Decision 6: Internal Heuristics vs. Official Ratings
 - All 1–5 feature scores (`camera`, `battery`, `displayReadability`, `simplicity`, `hotspotScore`) are **internal team ranking heuristics** defined by VoiceMatch to support deterministic recommendation sorting.
 - They are **NOT** official manufacturer ratings, independent lab scores, or carrier evaluations.
 
@@ -76,16 +80,17 @@ To ensure absolute price honesty and prevent algorithmic bias, VoiceMatch enforc
 ### 3. T-Mobile Go5G
 - **Plan ID:** `tmobile-go5g`
 - **Official Source URL:** https://www.t-mobile.com/cell-phone-plans
+- **Broadband Facts Source:** FCC Broadband Disclosures (Go5G Consumer Disclosure)
 - **Verification Date:** 2026-10-17
 - **Monthly Base Pricing (with AutoPay):**
   - **1 Line:** $75.00 / month
   - **2 Lines:** $130.00 / month ($65.00 per line)
-  - **3 Lines:** $130.00 / month (reflecting standard promotional 3rd line on us) / $155 standard without promo
+  - **3 Lines:** $155.00 / month (standard non-promotional base recurring rate)
   - **4+ Lines:** Supported
 - **Undiscounted Base Pricing (without AutoPay):**
   - **1 Line:** $80.00 / month
   - **2 Lines:** $140.00 / month
-  - **3 Lines:** $145.00 / month
+  - **3 Lines:** $170.00 / month
 - **AutoPay Terms:** $5/line discount included when enrolled with debit card or checking account.
 - **Taxes & Fees:** Included in base monthly service price.
 - **Data & Hotspot:** 100 GB premium high-speed mobile data, 15 GB high-speed mobile hotspot data (then unlimited 3G speeds), SD (480p) streaming video.
@@ -93,13 +98,14 @@ To ensure absolute price honesty and prevent algorithmic bias, VoiceMatch enforc
 
 ---
 
-## 3. Verified Phone Directory
+## 3. Verified Phone Directory (Current Purchase Availability)
 
-*Note: Samsung Galaxy A15 5G was removed from the active catalog because T-Mobile currently labels it as no longer available. It was replaced with the currently offered Motorola moto g 5G - 2024 and T-Mobile REVVL 7 5G.*
+*Audit Note: Samsung Galaxy A15 5G, Samsung Galaxy S24, and Samsung Galaxy S24 FE were removed from the catalog because T-Mobile currently labels them as no longer available. All six models below are confirmed currently offered and orderable.*
 
 ### 1. Motorola moto g 5G - 2024
 - **Model ID:** `motorola-moto-g-5g-2024`
 - **Brand:** Motorola
+- **Current Availability:** In stock / actively offered on T-Mobile store
 - **Official Source URL:** https://www.t-mobile.com/cell-phone/motorola-moto-g-5g-2024
 - **Verification Date:** 2026-10-17
 - **Full Retail Price (FRP):** $199.99 USD
@@ -115,10 +121,11 @@ To ensure absolute price honesty and prevent algorithmic bias, VoiceMatch enforc
 ### 2. T-Mobile REVVL 7 5G
 - **Model ID:** `t-mobile-revvl-7-5g`
 - **Brand:** T-Mobile
+- **Current Availability:** In stock / actively offered on T-Mobile store
 - **Official Source URL:** https://www.t-mobile.com/cell-phone/t-mobile-revvl-7-5g
 - **Verification Date:** 2026-10-17
 - **Full Retail Price (FRP):** $199.99 USD
-- **Financing Term:** 24 months @ $8.34/mo (0% APR, $0 down)
+- **Financing Term:** 24 months @ $8.34/mo (0% APR, $0 down for well-qualified buyers)
 - **Display:** 6.58" FHD+ (2408 x 1080), 120Hz refresh rate
 - **Battery:** 5,000 mAh, 15W fast charging
 - **Camera:** 50 MP main + 2 MP depth, 8 MP front
@@ -127,58 +134,62 @@ To ensure absolute price honesty and prevent algorithmic bias, VoiceMatch enforc
   - `largeTextFeatures`: **yes** (Android display and font scaling)
   - `screenReaderSupported`: **yes** (Android TalkBack)
 
-### 3. Samsung Galaxy S24 FE
-- **Model ID:** `samsung-galaxy-s24-fe`
+### 3. Samsung Galaxy A16 5G
+- **Model ID:** `samsung-galaxy-a16-5g`
 - **Brand:** Samsung
-- **Official Source URL:** https://www.t-mobile.com/cell-phone/samsung-galaxy-s24-fe
+- **Current Availability:** In stock / actively offered on T-Mobile store (current budget Samsung entry)
+- **Official Source URL:** https://www.t-mobile.com/cell-phone/samsung-galaxy-a16-5g
 - **Verification Date:** 2026-10-17
-- **Full Retail Price (FRP):** $649.99 USD (128GB)
-- **Financing Term:** 24 months @ $27.09/mo (0% APR, $0 down)
-- **Display:** 6.7" Dynamic AMOLED 2X, 120Hz, up to 1,900 nits peak brightness
-- **Battery:** 4,700 mAh, 25W fast charging
-- **Camera:** Triple pro-grade camera: 50 MP wide (OIS) + 8 MP telephoto (3x optical zoom) + 12 MP ultra-wide, 10 MP front
+- **Full Retail Price (FRP):** $259.99 USD (128GB)
+- **Financing Term:** 24 months @ $10.84/mo (0% APR, $0 down for well-qualified buyers)
+- **Display:** 6.7" Super AMOLED FHD+ (2340 x 1080), 90Hz refresh rate
+- **Battery:** 5,000 mAh, 25W fast charging
+- **Camera:** Triple rear camera: 50 MP main + 5 MP ultra-wide + 2 MP macro, 13 MP front
 - **Accessibility:**
   - `hearingCompatibility`: **yes** (FCC M3/T3 rated, ASHA hearing aid support)
   - `largeTextFeatures`: **yes** (Samsung One UI font size, high-contrast themes, bold fonts, display zoom)
   - `screenReaderSupported`: **yes** (TalkBack)
 
-### 4. Samsung Galaxy S24
-- **Model ID:** `samsung-galaxy-s24`
-- **Brand:** Samsung
-- **Official Source URL:** https://www.t-mobile.com/cell-phone/samsung-galaxy-s24
+### 4. Google Pixel 8a (128GB)
+- **Model ID:** `google-pixel-8a`
+- **Brand:** Google
+- **Current Availability:** In stock / actively offered on T-Mobile store (current midrange Android entry)
+- **Official Source URL:** https://www.t-mobile.com/cell-phone/google-pixel-8a
 - **Verification Date:** 2026-10-17
-- **Full Retail Price (FRP):** $799.99 USD (128GB)
-- **Financing Term:** 24 months @ $33.34/mo (0% APR, $0 down)
-- **Display:** 6.2" Dynamic AMOLED 2X, 1-120Hz adaptive, 2,600 nits peak outdoor brightness
-- **Battery:** 4,000 mAh, fast charging, wireless charging
-- **Camera:** 50 MP wide (OIS) + 10 MP telephoto (3x optical zoom) + 12 MP ultra-wide, 12 MP front
+- **Full Retail Price (FRP):** $499.99 USD (128GB)
+- **Financing Term:** 24 months @ $20.84/mo (0% APR, $0 down for well-qualified buyers)
+- **Display:** 6.1" Actua OLED (2400 x 1080), 120Hz, up to 2,000 nits peak outdoor brightness
+- **Battery:** 4,492 mAh, fast wireless charging
+- **Camera:** 64 MP Quad PD wide (OIS) + 13 MP ultra-wide, 13 MP front
 - **Accessibility:**
-  - `hearingCompatibility`: **yes** (FCC M3/T3 rated, ASHA streaming)
-  - `largeTextFeatures`: **yes** (One UI Vision enhancements, font scaling, high contrast)
-  - `screenReaderSupported`: **yes** (TalkBack)
+  - `hearingCompatibility`: **yes** (FCC M3/T4 rated, ASHA & Bluetooth LE Audio streaming)
+  - `largeTextFeatures`: **yes** (Android font & display scaling, high contrast text)
+  - `screenReaderSupported`: **yes** (TalkBack, Live Transcribe, Live Caption)
 
 ### 5. Apple iPhone 15 (128GB)
 - **Model ID:** `apple-iphone-15`
 - **Brand:** Apple
+- **Current Availability:** In stock / actively offered on T-Mobile store (current entry/affordable iPhone)
 - **Official Source URL:** https://www.t-mobile.com/cell-phone/apple-iphone-15
 - **Verification Date:** 2026-10-17
 - **Full Retail Price (FRP):** $629.99 USD (128GB)
-- **Financing Term:** 24 months @ $26.25/mo (0% APR, $0 down)
+- **Financing Term:** 24 months @ $26.25/mo (0% APR, $0 down for well-qualified buyers)
 - **Display:** 6.1" Super Retina XDR OLED, Dynamic Island, 2,000 nits peak outdoor brightness
 - **Battery:** 3,349 mAh (up to 20 hours video playback), MagSafe wireless charging
 - **Camera:** 48 MP Main with 2x optical-quality telephoto + 12 MP Ultra Wide, 12 MP TrueDepth front
 - **Accessibility:**
-  - `hearingCompatibility`: **yes** (FCC M3/T4 rated, Made for iPhone (MFi) hearing aids, Bluetooth LE Audio)
+  - `hearingCompatibility`: **yes** (FCC M3/T4 rated, Made for iPhone (MFi) hearing devices, Bluetooth LE Audio)
   - `largeTextFeatures`: **yes** (Dynamic Type, Accessibility Larger Text, Display Zoom, Bold Text)
   - `screenReaderSupported`: **yes** (VoiceOver)
 
 ### 6. Apple iPhone 16 (128GB)
 - **Model ID:** `apple-iphone-16`
 - **Brand:** Apple
+- **Current Availability:** In stock / actively offered on T-Mobile store (current flagship iPhone)
 - **Official Source URL:** https://www.t-mobile.com/cell-phone/apple-iphone-16
 - **Verification Date:** 2026-10-17
 - **Full Retail Price (FRP):** $829.99 USD (128GB)
-- **Financing Term:** 24 months @ $34.59/mo (0% APR, $0 down)
+- **Financing Term:** 24 months @ $34.59/mo (0% APR, $0 down for well-qualified buyers)
 - **Display:** 6.1" Super Retina XDR OLED, up to 2,000 nits peak outdoor brightness, 1 nit minimum brightness
 - **Battery:** 3,561 mAh (up to 22 hours video playback), 25W MagSafe wireless charging
 - **Camera:** 48 MP Fusion camera with 2x optical telephoto + 12 MP Ultra Wide with macro, physical Camera Control tactile button
