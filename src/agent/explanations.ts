@@ -33,6 +33,37 @@ export const TERMINOLOGY_DICTIONARY: Record<string, { en: string; es: string }> 
 };
 
 export const REASON_CODE_DICTIONARY: Record<string, { en: string; es: string }> = {
+  // Authoritative codes from Person 3 recommendation engine (src/recommendations/explanations.ts)
+  WITHIN_CONFIRMED_COMBINED_BUDGET: {
+    en: "Fits comfortably within your confirmed combined monthly budget",
+    es: "Se ajusta cómodamente a su presupuesto mensual combinado confirmado",
+  },
+  HIGH_READABILITY_HEURISTIC: {
+    en: "Features a high-readability screen with sharp text and clear contrast",
+    es: "Cuenta con una pantalla de alta legibilidad con texto nítido y buen contraste",
+  },
+  STRONG_BATTERY_HEURISTIC: {
+    en: "Offers a long-lasting battery designed for dependable all-day use",
+    es: "Ofrece una batería de larga duración diseñada para un uso confiable todo el día",
+  },
+  STRONG_CAMERA_HEURISTIC: {
+    en: "Equipped with a high-quality camera for clear photos and video calls",
+    es: "Equipado con una cámara de alta calidad para fotos claras y videollamadas",
+  },
+  SIMPLE_USE_HEURISTIC: {
+    en: "Straightforward and simple interface that is easy to navigate",
+    es: "Interfaz sencilla y directa que resulta fácil de navegar",
+  },
+  SUPPORTS_HIGHER_USAGE_HEURISTIC: {
+    en: "Includes dedicated support and high-speed data for streaming or mobile hotspot",
+    es: "Incluye soporte y datos de alta velocidad para transmisión de video o punto de acceso móvil",
+  },
+  ELIGIBLE_VERIFIED_PRICE_OPTION: {
+    en: "Verified eligible combination that meets your base requirements at a confirmed price",
+    es: "Combinación elegible y verificada que cumple con sus requisitos a un precio confirmado",
+  },
+
+  // Fixture / Contract convenience codes
   budget_fit: {
     en: "Fits comfortably within your specified monthly budget",
     es: "Se ajusta cómodamente al presupuesto mensual indicado",
@@ -76,6 +107,29 @@ export const REASON_CODE_DICTIONARY: Record<string, { en: string; es: string }> 
 };
 
 export const TRADEOFF_CODE_DICTIONARY: Record<string, { en: string; es: string }> = {
+  // Authoritative codes from Person 3 recommendation engine (src/recommendations/explanations.ts)
+  ACCESSIBILITY_COMPATIBILITY_UNVERIFIED: {
+    en: "Accessibility and large-text compatibility features have not been officially verified for this device",
+    es: "Las funciones de accesibilidad y texto grande no han sido verificadas oficialmente para este dispositivo",
+  },
+  DEVICE_MONTHLY_PRICE_UNAVAILABLE: {
+    en: "A monthly device installment price is not currently available for this phone",
+    es: "El precio mensual a plazos del dispositivo no está disponible actualmente para este teléfono",
+  },
+  DEVICE_FINANCING_ESTIMATE_EXCLUDES_TAXES_FEES_CREDITS: {
+    en: "Device financing is an estimate and excludes applicable taxes, fees, and promotional credits",
+    es: "El financiamiento del dispositivo es estimado y excluye impuestos, cargos y créditos promocionales",
+  },
+  TAXES_AND_FEES_EXCLUDED_FROM_MONTHLY_ESTIMATE: {
+    en: "Estimated monthly price excludes regulatory fees and local taxes",
+    es: "El precio mensual estimado no incluye cargos regulatorios ni impuestos locales",
+  },
+  LOWER_CAMERA_HEURISTIC: {
+    en: "Basic camera system suited for casual everyday photos rather than advanced photography",
+    es: "Cámara básica adecuada para fotos cotidianas casuales pero no para fotografía avanzada",
+  },
+
+  // Fixture / Contract convenience codes
   higher_device_cost: {
     en: "Device monthly cost is higher than other alternatives",
     es: "El costo mensual del dispositivo es más alto que otras alternativas",

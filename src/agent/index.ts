@@ -1,4 +1,4 @@
-export * from "./types.js";
+export * from "./types";
 export * from "./preference-state";
 export * from "./preference-extractor";
 export * from "./conversation-policy";
