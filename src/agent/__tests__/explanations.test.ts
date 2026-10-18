@@ -83,5 +83,45 @@ describe("Explanations Module", () => {
     assert.strictEqual(res.cheaperRecommendation, null);
     assert.ok(res.text.includes("already the lowest-cost"));
   });
+
+  it("verifies all backend recommendation engine reason codes have English and Spanish explanations", () => {
+    const backendReasonCodes = [
+      "WITHIN_CONFIRMED_COMBINED_BUDGET",
+      "HIGH_READABILITY_HEURISTIC",
+      "STRONG_BATTERY_HEURISTIC",
+      "STRONG_CAMERA_HEURISTIC",
+      "SIMPLE_USE_HEURISTIC",
+      "SUPPORTS_HIGHER_USAGE_HEURISTIC",
+      "ELIGIBLE_VERIFIED_PRICE_OPTION",
+    ];
+
+    for (const code of backendReasonCodes) {
+      const en = translateReasonCode(code, "en");
+      const es = translateReasonCode(code, "es");
+      assert.ok(!en.includes("definition pending"), `Reason code ${code} should have English translation, got: ${en}`);
+      assert.ok(!es.includes("definición pendiente"), `Reason code ${code} should have Spanish translation, got: ${es}`);
+      assert.ok(en.length > 5);
+      assert.ok(es.length > 5);
+    }
+  });
+
+  it("verifies all backend recommendation engine tradeoff codes have English and Spanish explanations", () => {
+    const backendTradeoffCodes = [
+      "ACCESSIBILITY_COMPATIBILITY_UNVERIFIED",
+      "DEVICE_MONTHLY_PRICE_UNAVAILABLE",
+      "DEVICE_FINANCING_ESTIMATE_EXCLUDES_TAXES_FEES_CREDITS",
+      "TAXES_AND_FEES_EXCLUDED_FROM_MONTHLY_ESTIMATE",
+      "LOWER_CAMERA_HEURISTIC",
+    ];
+
+    for (const code of backendTradeoffCodes) {
+      const en = translateTradeoffCode(code, "en");
+      const es = translateTradeoffCode(code, "es");
+      assert.ok(!en.includes("definition pending"), `Tradeoff code ${code} should have English translation, got: ${en}`);
+      assert.ok(!es.includes("definición pendiente"), `Tradeoff code ${code} should have Spanish translation, got: ${es}`);
+      assert.ok(en.length > 5);
+      assert.ok(es.length > 5);
+    }
+  });
 });
 

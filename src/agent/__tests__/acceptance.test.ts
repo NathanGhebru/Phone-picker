@@ -5,6 +5,7 @@ import {
   explainCheaperAlternative,
   explainRecommendation,
   translateReasonCode,
+  translateTradeoffCode,
 } from "../explanations";
 import {
   MOCK_FIXTURE_EN_RECOMMENDATIONS,
@@ -290,6 +291,12 @@ describe("VoiceMatch Agent - 16 Acceptance Criteria", () => {
       "Should explain grounded reasons"
     );
 
+    // Verify Person 3 backend reason and tradeoff code translations
+    const backendReason = translateReasonCode("WITHIN_CONFIRMED_COMBINED_BUDGET", "en");
+    assert.ok(backendReason.includes("budget"));
+    const backendTradeoff = translateTradeoffCode("TAXES_AND_FEES_EXCLUDED_FROM_MONTHLY_ESTIMATE", "en");
+    assert.ok(!backendTradeoff.includes("definition pending"));
+
     // If an unknown reason code is provided, report it explicitly rather than hallucinating
     const unknownTranslation = translateReasonCode("mystery_promo_code", "en");
     assert.strictEqual(
@@ -435,6 +442,20 @@ describe("VoiceMatch Agent - 16 Acceptance Criteria", () => {
       undefined,
       "Sanitizer must strip unapproved keys"
     );
+  });
+
+  // Regression check: index.ts package entrypoint exports
+  it("Entrypoint regression check: index exports all required public utilities", async () => {
+    // Dynamic import to verify package entrypoint resolution
+    const agentIndex = await import("../index");
+    assert.strictEqual(typeof agentIndex.processTurn, "function");
+    assert.strictEqual(typeof agentIndex.createInitialPreferences, "function");
+    assert.strictEqual(typeof agentIndex.createInitialConversationState, "function");
+    assert.strictEqual(typeof agentIndex.REASON_CODE_DICTIONARY, "object");
+    assert.strictEqual(typeof agentIndex.TRADEOFF_CODE_DICTIONARY, "object");
+    assert.strictEqual(typeof agentIndex.explainRecommendation, "function");
+    assert.strictEqual(typeof agentIndex.explainTerm, "function");
+    assert.strictEqual(typeof agentIndex.explainCheaperAlternative, "function");
   });
 });
 
