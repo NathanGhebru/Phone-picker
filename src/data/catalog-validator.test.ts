@@ -14,6 +14,48 @@ assert.equal(validation.valid, true, `Validation failed: ${validation.errors.joi
 assert.equal(validation.errors.length, 0);
 console.log('✓ 6-phone and 3-plan catalog loads and validates with 0 errors.');
 
+console.log('--- Testing Go5G Multi-Line & Family Plan Verification ---');
+const go5g = catalog.plans.find((p) => p.id === 'tmobile-go5g');
+assert.ok(go5g, 'Go5G plan must be present in catalog');
+
+// Verify 1 through 5 lines are defined and accurately priced
+assert.equal(go5g.monthlyPriceByLines[1], 75.0, 'Go5G line 1 must be $75');
+assert.equal(go5g.monthlyPriceByLines[2], 130.0, 'Go5G line 2 must be $130');
+assert.equal(go5g.monthlyPriceByLines[3], 155.0, 'Go5G line 3 standard non-promo must be $155');
+assert.equal(go5g.monthlyPriceByLines[4], 180.0, 'Go5G line 4 standard non-promo must be $180');
+assert.equal(go5g.monthlyPriceByLines[5], 205.0, 'Go5G line 5 standard non-promo must be $205');
+
+// Verify undiscounted prices
+assert.ok(go5g.undiscountedMonthlyPriceByLines, 'Go5G must have undiscounted monthly prices');
+assert.equal(go5g.undiscountedMonthlyPriceByLines[1], 80.0, 'Go5G undiscounted line 1 must be $80');
+assert.equal(go5g.undiscountedMonthlyPriceByLines[2], 140.0, 'Go5G undiscounted line 2 must be $140');
+assert.equal(go5g.undiscountedMonthlyPriceByLines[3], 170.0, 'Go5G undiscounted line 3 must be $170');
+assert.equal(go5g.undiscountedMonthlyPriceByLines[4], 200.0, 'Go5G undiscounted line 4 must be $200');
+assert.equal(go5g.undiscountedMonthlyPriceByLines[5], 230.0, 'Go5G undiscounted line 5 must be $230');
+
+// Verify AutoPay math consistency: undiscounted - discounted === lineCount * autoPayDiscountPerLine
+const autoPayDiscount = go5g.autoPayDiscountPerLine ?? 5.0;
+for (let lines = 1; lines <= 5; lines++) {
+  const discounted = go5g.monthlyPriceByLines[lines];
+  const undiscounted = go5g.undiscountedMonthlyPriceByLines[lines];
+  assert.ok(typeof discounted === 'number' && typeof undiscounted === 'number');
+  const expectedDiff = lines * autoPayDiscount;
+  assert.equal(undiscounted - discounted, expectedDiff, `AutoPay discount for ${lines} line(s) must be exactly $${expectedDiff}`);
+}
+console.log('✓ Go5G 1-5 line pricing and AutoPay arithmetic verified consistent.');
+
+// Verify line caps on Essentials plans vs. Go5G
+const essentialsSaver = catalog.plans.find((p) => p.id === 'tmobile-essentials-saver-2');
+assert.ok(essentialsSaver);
+assert.equal(essentialsSaver.restrictions?.maxLines, 2, 'Essentials Saver must be capped at 2 lines');
+assert.equal(essentialsSaver.monthlyPriceByLines[3], undefined, 'Essentials Saver must not have 3-line pricing');
+
+const essentials55 = catalog.plans.find((p) => p.id === 'tmobile-essentials-choice-55-2');
+assert.ok(essentials55);
+assert.equal(essentials55.restrictions?.maxLines, 2, 'Essentials 55 must be capped at 2 lines');
+assert.equal(essentials55.monthlyPriceByLines[3], undefined, 'Essentials 55 must not have 3-line pricing');
+console.log('✓ Essentials line limits strictly enforced; Go5G multi-line family support verified.');
+
 console.log('--- Testing Validator Constraints ---');
 
 // Test 1: Duplicate phone ID
