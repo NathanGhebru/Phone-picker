@@ -1,0 +1,200 @@
+import type { Translations } from "./types";
+
+export const esTranslations: Translations = {
+  common: {
+    appName: "VoiceMatch",
+    tagline: "Encuentre el teléfono adecuado describiendo su vida, no las especificaciones técnicas.",
+    loading: "Cargando...",
+    error: "Ocurrió un error",
+    retry: "Reintentar",
+    close: "Cerrar",
+    edit: "Editar",
+    save: "Guardar cambios",
+    cancel: "Cancelar",
+    unknown: "No especificado",
+    notSpecified: "No especificado",
+    perMonth: "/mes",
+    linesCount: (count: number) => (count === 1 ? "1 línea" : `${count} líneas`),
+    currency: "USD",
+    yes: "Sí",
+    no: "No",
+    viewDetails: "Ver detalles",
+    hideDetails: "Ocultar detalles",
+    sources: "Fuentes oficiales",
+    assumptions: "Supuestos del plan y precios",
+    disclaimer:
+      "Los precios son estimaciones ilustrativas basadas en datos seleccionados de demostración. Excluyen impuestos, cargos de activación y promociones.",
+  },
+  languageToggle: {
+    label: "Selección de idioma",
+    switchToEnglish: "English",
+    switchToSpanish: "Español",
+    currentLanguageAnnouncement: (lang: string) => `Idioma cambiado a ${lang}`,
+  },
+  voiceControl: {
+    startListening: "Comenzar a hablar",
+    stopListening: "Dejar de hablar",
+    connecting: "Conectando voz...",
+    listening: "Escuchándole...",
+    speaking: "VoiceMatch está hablando...",
+    idle: "Micrófono listo",
+    micError: "Error de micrófono",
+    micPermissionDenied:
+      "El acceso al micrófono fue denegado o no está disponible. Puede escribir su mensaje en cualquier momento abajo.",
+    micHelpText: "Presione para hablar con su asesor o escriba abajo",
+    ariaLabelStart: "Comenzar a hablar con el asistente de voz",
+    ariaLabelStop: "Detener micrófono y enviar",
+    statusAnnouncement: (status: string) => `Estado del asistente de voz: ${status}`,
+  },
+  conversationStatus: {
+    idleText: "Listo para su consulta. Hable o escriba abajo.",
+    connectingText: "Conectando con la sesión de audio...",
+    listeningText: "Escuchando... hable con naturalidad.",
+    speakingText: "Hablando...",
+    errorText: "Problema de conexión. Por favor reintente o escriba su mensaje.",
+    networkNotice: "El chat escrito siempre está disponible, incluso sin conexión de voz.",
+  },
+  transcript: {
+    title: "Transcripción de la conversación",
+    emptyState:
+      'Aún no hay mensajes. Haga clic en "Comenzar a hablar" o escriba un mensaje abajo, por ejemplo: "Necesito un teléfono sencillo con letra grande por unos $60 al mes."',
+    userSpeaker: "Usted",
+    assistantSpeaker: "Asesor VoiceMatch",
+    listeningBadge: "Escuchando...",
+    thinkingBadge: "Procesando...",
+    liveRegionLabel: "Actualizaciones de la conversación en vivo",
+  },
+  chatInput: {
+    placeholder: 'Escriba su mensaje (ej. "Necesito un teléfono por menos de $50 con pantalla grande")...',
+    sendButton: "Enviar mensaje",
+    typeInsteadHeading: "Escribir en su lugar",
+    typeInsteadHint: "¿Prefiere escribir o tiene problemas con el micrófono? Escriba aquí sus necesidades.",
+    inputAriaLabel: "Mensaje para el asesor de compras VoiceMatch",
+    disabledHint: "Procesando mensaje anterior...",
+  },
+  preferences: {
+    title: "Preferencias Reconocidas",
+    subtitle: "Actualizamos esto a medida que conversa. También puede corregirlo directamente.",
+    budgetTotal: "Presupuesto mensual",
+    budgetDeviceIncluded: "Incluye teléfono y plan",
+    budgetServiceOnly: "Solo servicio de plan",
+    lines: "Líneas",
+    customerStatus: "Tipo de cliente",
+    customerNew: "Nuevo cliente",
+    customerExisting: "Cliente existente",
+    devicePurchaseMode: "Forma de pago del equipo",
+    deviceModeMonthly: "Cuotas mensuales (24 meses)",
+    deviceModeUpfront: "Pago total inicial",
+    prioritiesTitle: "Prioridades de funciones",
+    priorities: {
+      camera: "Calidad de cámara",
+      battery: "Duración de batería",
+      displayReadability: "Pantalla grande y fácil de leer",
+      simplicity: "Sencillo y fácil de usar",
+      hotspot: "Punto de acceso móvil (Hotspot)",
+    },
+    priorityLevel: (level: number) => {
+      switch (level) {
+        case 5:
+          return "Indispensable";
+        case 4:
+          return "Alta prioridad";
+        case 3:
+          return "Moderada";
+        case 2:
+          return "Baja prioridad";
+        case 1:
+          return "No relevante";
+        default:
+          return "Sin clasificar";
+      }
+    },
+    usageTitle: "Uso previsto",
+    accessibilityNeedsTitle: "Preferencias de accesibilidad",
+    eligibilityTitle: "Descuentos de elegibilidad",
+    age55Discount: "Descuento para mayores de 55 años",
+    eligibleYes: "Elegibilidad confirmada",
+    eligibleNo: "No elegible",
+    eligibleUnknown: "Por confirmar",
+    correctButton: "Corregir preferencias",
+    modalTitle: "Modificar preferencias",
+    budgetInputLabel: "Presupuesto mensual total ($USD)",
+    linesInputLabel: "Número de líneas móviles",
+    saveChanges: "Aplicar cambios",
+  },
+  recommendations: {
+    title: "Paquetes Recomendados de Teléfono y Plan",
+    subtitle: "Opciones seleccionadas con base en sus preferencias confirmadas",
+    catalogAsOf: (date: string) => `Catálogo verificado al ${date}`,
+    emptyTitle: "Aún no hay recomendaciones coincidentes",
+    emptyDescription:
+      "Cuéntenos qué necesita: por ejemplo su presupuesto mensual, quién usará el teléfono y si requiere letra grande o buena batería.",
+    emptyActionTip: 'Pruebe diciendo o escribiendo: "Quiero un teléfono fácil de leer por menos de $60 al mes."',
+    loadingTitle: "Buscando sus mejores opciones...",
+    loadingDescription: "Evaluando teléfonos y planes de T-Mobile según sus necesidades.",
+    labels: {
+      best_match: "Mejor Opción",
+      lowest_cost: "Menor Costo",
+      alternative: "Opción Alternativa",
+    },
+    badges: {
+      best_match: "Recomendado",
+      lowest_cost: "Más Económico",
+      alternative: "Alternativa",
+    },
+    reasonsTitle: "¿Por qué se eligió?",
+    tradeoffsTitle: "Aspectos a considerar",
+    costBreakdownTitle: "Desglose del Costo Mensual Estimado",
+    monthlyPlan: "Servicio de plan",
+    monthlyDevice: "Financiamiento de equipo (est.)",
+    monthlyTotal: "Total estimado",
+    totalEstimatedMonthly: "Total mensual estimado",
+    priceUnavailable: "Precio no disponible",
+    pricingDisclaimer:
+      "El financiamiento del equipo asume un plazo de 24 meses. Impuestos y cargos varían según la ubicación.",
+    inspectOfferButton: "Ver detalles del paquete",
+    selectedBadge: "Paquete Seleccionado",
+    selectPlanButton: "Seleccionar este paquete",
+    sourceUrlsTitle: "Fuentes oficiales y verificación",
+    assumptionsTitle: "Supuestos",
+    scoreLabel: "Puntaje de afinidad",
+    questionsTitle: "Preguntas de aclaración",
+    warningsTitle: "Avisos importantes",
+  },
+  reasons: {
+    budget_fit: "Se ajusta cómodamente al presupuesto mensual indicado",
+    large_display: "Pantalla grande y legible que facilita ver textos y aplicaciones",
+    long_battery: "Batería duradera diseñada para todo el día sin necesidad de recargar constantemente",
+    simplicity: "Sencillo y fácil de usar, sin controles complicados",
+    simple_ui: "Interfaz limpia y accesible diseñada para tareas cotidianas",
+    streaming_data: "Incluye abundantes datos de alta velocidad para ver videos en YouTube",
+    good_camera: "Cámara confiable para fotos de alta calidad y videollamadas familiares",
+    unlimited_talk_text: "Incluye llamadas y mensajes de texto ilimitados",
+    lowest_monthly_cost: "El precio mensual más bajo entre todas las opciones elegibles",
+    age55_discount: "Aprovecha los descuentos para mayores de 55 años elegibles",
+  },
+  tradeoffs: {
+    higher_device_cost: "El costo mensual del dispositivo es más alto que otras alternativas",
+    smaller_display: "Pantalla más compacta, lo que podría dificultar la lectura de textos pequeños",
+    entry_level_camera: "Cámara básica adecuada para fotos sencillas pero no para fotografía avanzada",
+    data_throttling: "La velocidad de datos puede reducirse durante congestión tras un uso intenso",
+    requires_autopay: "El precio cotizado requiere inscripción en pago automático",
+    financing_commitment: "Requiere un acuerdo de financiamiento de 24 meses para el pago a plazos del dispositivo",
+    no_hotspot: "No incluye datos de punto de acceso móvil de alta velocidad",
+  },
+  usages: {
+    calls: "Llamadas telefónicas",
+    texting: "Mensajes de texto",
+    video: "Video y YouTube",
+    browsing: "Navegación web y correo",
+    social_media: "Redes sociales",
+    navigation: "Mapas y GPS",
+  },
+  accessibilityOptions: {
+    readable_text: "Texto grande y alta legibilidad",
+    high_contrast: "Modo de alto contraste en pantalla",
+    hearing_aid: "Compatibilidad con audífonos (M3/T3+)",
+    simple_mode: "Pantalla de inicio simplificada",
+    voice_control: "Control y navegación por voz",
+  },
+};

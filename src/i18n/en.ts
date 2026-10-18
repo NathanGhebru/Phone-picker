@@ -1,0 +1,200 @@
+import type { Translations } from "./types";
+
+export const enTranslations: Translations = {
+  common: {
+    appName: "VoiceMatch",
+    tagline: "Find the right phone by describing your life, not the specs.",
+    loading: "Loading...",
+    error: "An error occurred",
+    retry: "Try again",
+    close: "Close",
+    edit: "Edit",
+    save: "Save changes",
+    cancel: "Cancel",
+    unknown: "Not specified",
+    notSpecified: "Not specified",
+    perMonth: "/mo",
+    linesCount: (count: number) => (count === 1 ? "1 line" : `${count} lines`),
+    currency: "USD",
+    yes: "Yes",
+    no: "No",
+    viewDetails: "View details",
+    hideDetails: "Hide details",
+    sources: "Official Sources",
+    assumptions: "Pricing & Plan Assumptions",
+    disclaimer:
+      "Prices are illustrative estimates based on curated demo data. Excludes taxes, activation fees, and promotional discounts.",
+  },
+  languageToggle: {
+    label: "Language selection",
+    switchToEnglish: "English",
+    switchToSpanish: "Español",
+    currentLanguageAnnouncement: (lang: string) => `Language changed to ${lang}`,
+  },
+  voiceControl: {
+    startListening: "Start Speaking",
+    stopListening: "Stop Speaking",
+    connecting: "Connecting voice...",
+    listening: "Listening to you...",
+    speaking: "VoiceMatch is speaking...",
+    idle: "Microphone ready",
+    micError: "Microphone error",
+    micPermissionDenied:
+      "Microphone access was denied or is unavailable. You can use the typed chat input below at any time.",
+    micHelpText: "Press to talk with your advisor or type below",
+    ariaLabelStart: "Start speaking with voice assistant",
+    ariaLabelStop: "Stop speaking and finish turn",
+    statusAnnouncement: (status: string) => `Voice assistant status: ${status}`,
+  },
+  conversationStatus: {
+    idleText: "Ready for your question. Speak or type below.",
+    connectingText: "Connecting to audio session...",
+    listeningText: "Listening... speak naturally.",
+    speakingText: "Speaking...",
+    errorText: "Connection issue. Please retry or type your message.",
+    networkNotice: "Text chat is always available even if voice is disconnected.",
+  },
+  transcript: {
+    title: "Conversation Transcript",
+    emptyState:
+      'No messages yet. Click "Start Speaking" or type a message below, such as: "I need a simple phone with big text for around $60 a month."',
+    userSpeaker: "You",
+    assistantSpeaker: "VoiceMatch Advisor",
+    listeningBadge: "Listening...",
+    thinkingBadge: "Processing...",
+    liveRegionLabel: "Live conversation updates",
+  },
+  chatInput: {
+    placeholder: 'Type your message (e.g., "Need a phone under $50 with a big screen")...',
+    sendButton: "Send message",
+    typeInsteadHeading: "Type instead",
+    typeInsteadHint: "Prefer typing or having mic trouble? Type your needs here.",
+    inputAriaLabel: "Message to VoiceMatch shopping advisor",
+    disabledHint: "Processing previous message...",
+  },
+  preferences: {
+    title: "Recognized Preferences",
+    subtitle: "We update these as you speak. You can also correct them directly.",
+    budgetTotal: "Monthly Budget",
+    budgetDeviceIncluded: "Includes device & plan",
+    budgetServiceOnly: "Plan service only",
+    lines: "Lines",
+    customerStatus: "Customer Status",
+    customerNew: "New Customer",
+    customerExisting: "Existing Customer",
+    devicePurchaseMode: "Device Payment",
+    deviceModeMonthly: "Monthly Installments (24 mo)",
+    deviceModeUpfront: "Pay Full Upfront",
+    prioritiesTitle: "Feature Priorities",
+    priorities: {
+      camera: "Camera Quality",
+      battery: "Battery Life",
+      displayReadability: "Large / Easy-to-Read Screen",
+      simplicity: "Simple / Easy to Use",
+      hotspot: "Mobile Hotspot",
+    },
+    priorityLevel: (level: number) => {
+      switch (level) {
+        case 5:
+          return "Must have";
+        case 4:
+          return "High priority";
+        case 3:
+          return "Moderate";
+        case 2:
+          return "Low priority";
+        case 1:
+          return "Not important";
+        default:
+          return "Unranked";
+      }
+    },
+    usageTitle: "Intended Usage",
+    accessibilityNeedsTitle: "Accessibility Preferences",
+    eligibilityTitle: "Eligibility Discounts",
+    age55Discount: "55+ Age Discount",
+    eligibleYes: "Confirmed eligible",
+    eligibleNo: "Not eligible",
+    eligibleUnknown: "Unconfirmed",
+    correctButton: "Correct preferences",
+    modalTitle: "Edit Preferences",
+    budgetInputLabel: "Monthly total budget ($USD)",
+    linesInputLabel: "Number of phone lines",
+    saveChanges: "Apply changes",
+  },
+  recommendations: {
+    title: "Recommended Phone & Plan Bundles",
+    subtitle: "Curated options based directly on your verified preferences",
+    catalogAsOf: (date: string) => `Catalog verified as of ${date}`,
+    emptyTitle: "No matching recommendations yet",
+    emptyDescription:
+      "Tell us what you are looking for—such as your monthly budget, who will use the phone, and screen or battery needs.",
+    emptyActionTip: 'Try saying or typing: "I want an easy-to-read phone for under $60/month."',
+    loadingTitle: "Finding your best matches...",
+    loadingDescription: "Evaluating curated T-Mobile phones and plans against your needs.",
+    labels: {
+      best_match: "Best Match",
+      lowest_cost: "Lowest Cost",
+      alternative: "Alternative Option",
+    },
+    badges: {
+      best_match: "Top Pick",
+      lowest_cost: "Value Pick",
+      alternative: "Alternative",
+    },
+    reasonsTitle: "Why this was chosen",
+    tradeoffsTitle: "Things to keep in mind",
+    costBreakdownTitle: "Estimated Monthly Cost Breakdown",
+    monthlyPlan: "Plan Service",
+    monthlyDevice: "Device Financing (est.)",
+    monthlyTotal: "Estimated Total",
+    totalEstimatedMonthly: "Estimated Monthly Total",
+    priceUnavailable: "Price unavailable",
+    pricingDisclaimer:
+      "Device financing assumes 24-month installment term. Taxes and carrier fees vary by location.",
+    inspectOfferButton: "View bundle details",
+    selectedBadge: "Selected Bundle",
+    selectPlanButton: "Select this bundle",
+    sourceUrlsTitle: "Official Sources & Verification",
+    assumptionsTitle: "Assumptions",
+    scoreLabel: "Match Score",
+    questionsTitle: "Clarifying Questions",
+    warningsTitle: "Important Notices",
+  },
+  reasons: {
+    budget_fit: "Fits comfortably within your specified monthly budget",
+    large_display: "Large, readable display that makes text and apps easy to see",
+    long_battery: "Long-lasting battery designed for all-day use without frequent recharging",
+    simplicity: "Straightforward and easy to use without complicated controls",
+    simple_ui: "Clean, accessible interface designed for everyday tasks",
+    streaming_data: "Includes ample high-speed data for video streaming like YouTube",
+    good_camera: "Reliable camera for high-quality photos and video calls with family",
+    unlimited_talk_text: "Includes unlimited calls and text messages",
+    lowest_monthly_cost: "The lowest monthly price among all eligible options",
+    age55_discount: "Takes advantage of eligible 55+ plan savings",
+  },
+  tradeoffs: {
+    higher_device_cost: "Device monthly cost is higher than other alternatives",
+    smaller_display: "More compact screen, which may make small text harder to read",
+    entry_level_camera: "Basic camera suited for simple snapshots rather than advanced photography",
+    data_throttling: "Data speeds may slow during peak congestion after heavy usage",
+    requires_autopay: "Quoted price requires AutoPay enrollment",
+    financing_commitment: "Requires a 24-month financing agreement for the device installment",
+    no_hotspot: "Does not include high-speed mobile hotspot data",
+  },
+  usages: {
+    calls: "Phone calls",
+    texting: "Text messaging",
+    video: "Streaming video & YouTube",
+    browsing: "Web browsing & email",
+    social_media: "Social media",
+    navigation: "Maps & GPS",
+  },
+  accessibilityOptions: {
+    readable_text: "Large text & high readability",
+    high_contrast: "High-contrast screen mode",
+    hearing_aid: "Hearing aid compatibility (M3/T3+)",
+    simple_mode: "Simplified home screen",
+    voice_control: "Voice command navigation",
+  },
+};
