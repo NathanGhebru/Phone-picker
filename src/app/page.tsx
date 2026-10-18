@@ -1,30 +1,10 @@
-"use client";
-
-import { VoiceMatchView } from "@/components";
-import { useVoiceMatchSession } from "@/hooks/useVoiceMatchSession";
+import phones from "@/data/phones.json";
+import plans from "@/data/plans.json";
+import { VoiceMatchClient } from "./voice-match-client";
 
 export default function Home() {
-  const session = useVoiceMatchSession();
+  const phoneNames = Object.fromEntries(phones.map((phone) => [phone.id, phone.name]));
+  const planNames = Object.fromEntries(plans.map((plan) => [plan.id, plan.name]));
 
-  return (
-    <VoiceMatchView
-      language={session.language}
-      transcript={session.transcript}
-      preferences={session.preferences}
-      recommendations={session.recommendations}
-      selectedRecommendationId={session.selectedRecommendationId}
-      voiceState={session.voiceState}
-      voiceMessage={session.voiceMessage}
-      isSubmitting={session.isSubmitting}
-      isLoadingRecommendations={session.isSubmitting}
-      error={session.error}
-      onLanguageChange={session.setLanguage}
-      onSendMessage={session.submitMessage}
-      onStartMicrophone={session.startVoice}
-      onStopMicrophone={session.stopVoice}
-      onSelectRecommendation={(recommendation) => session.selectRecommendation(recommendation.id)}
-      onCorrectPreferences={session.correctPreferences}
-      onRetry={() => { void session.retry(); }}
-    />
-  );
+  return <VoiceMatchClient phoneNames={phoneNames} planNames={planNames} />;
 }
