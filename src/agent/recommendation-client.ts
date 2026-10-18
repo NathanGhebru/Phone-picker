@@ -33,7 +33,15 @@ export class RecommendationClient {
   constructor(options: RecommendationClientOptions = {}) {
     this.baseUrl = options.baseUrl ?? "";
     this.fetchFn = options.fetchFn ?? (typeof fetch !== "undefined" ? fetch.bind(globalThis) : (undefined as unknown as typeof fetch));
-    this.enableLocalFallback = options.enableLocalFallback ?? true;
+    
+    // In production, fallback must be explicitly requested and defaults to false
+    // to prevent silently substituting fixture products when Person 3's real API is unreachable.
+    const isProduction =
+      typeof process !== "undefined" &&
+      process.env &&
+      process.env.NODE_ENV === "production";
+
+    this.enableLocalFallback = options.enableLocalFallback ?? (isProduction ? false : false);
   }
 
   /**
@@ -115,3 +123,4 @@ export class RecommendationClient {
     return MOCK_FIXTURE_EN_RECOMMENDATIONS;
   }
 }
+

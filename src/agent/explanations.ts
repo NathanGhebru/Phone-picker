@@ -1,7 +1,6 @@
 import type {
   Language,
   Recommendation,
-  RecommendationResponse,
 } from "../shared/types";
 
 export interface TermExplanation {
@@ -255,3 +254,4 @@ export function explainCheaperAlternative(
     text,
   };
 }
+
