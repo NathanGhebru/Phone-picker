@@ -1,0 +1,70 @@
+[
+  {
+    "id": "samsung-galaxy-a15-5g",
+    "name": "Samsung Galaxy A15 5G",
+    "brand": "Samsung",
+    "listPrice": 228.0,
+    "financingMonths": 24,
+    "screenInches": 6.5,
+    "batteryCapacityMah": 5000,
+    "batteryInfo": "5,000 mAh typical battery with up to 2-day battery life and 25W fast charging support.",
+    "cameraInfo": "Triple rear camera: 50 MP main (f/1.8), 5 MP ultra-wide, 2 MP macro. 13 MP front camera.",
+    "displayInfo": "6.5-inch FHD+ Super AMOLED display with 90Hz refresh rate and 800 nits Vision Booster.",
+    "scores": {
+      "camera": 3,
+      "battery": 4,
+      "displayReadability": 4,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Large, high-contrast 6.5-inch Super AMOLED screen with high brightness",
+      "All-day 5,000 mAh battery life",
+      "Very low entry cost and monthly financing ($9.50/mo over 24 months)"
+    ],
+    "tradeoffs": [
+      "Moderate processor performance; not suited for heavy 3D gaming",
+      "Plastic frame and back construction; no wireless charging support"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/samsung-galaxy-a15-5g",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "apple-iphone-16",
+    "name": "Apple iPhone 16 (128GB)",
+    "brand": "Apple",
+    "listPrice": 829.99,
+    "financingMonths": 24,
+    "screenInches": 6.1,
+    "batteryCapacityMah": 3561,
+    "batteryInfo": "All-day battery life (up to 22 hours video playback) with fast charging and MagSafe wireless charging.",
+    "cameraInfo": "Advanced dual-camera system: 48 MP Fusion camera with 2x optical telephoto option, 12 MP ultra-wide with macro support, Camera Control button.",
+    "displayInfo": "6.1-inch Super Retina XDR OLED display with up to 2,000 nits peak outdoor brightness and 1 nit minimum brightness.",
+    "scores": {
+      "camera": 5,
+      "battery": 4,
+      "displayReadability": 5,
+      "simplicity": 4
+    },
+    "accessibility": {
+      "hearingCompatibility": "yes",
+      "largeTextFeatures": "yes",
+      "screenReaderSupported": "yes"
+    },
+    "strengths": [
+      "Top-tier camera system with 48MP resolution and physical Camera Control button",
+      "Exceptional outdoor display visibility (up to 2,000 nits) and text rendering",
+      "Comprehensive accessibility ecosystem (VoiceOver, Dynamic Type, MFi hearing support)"
+    ],
+    "tradeoffs": [
+      "Higher upfront retail price ($829.99) and monthly installment ($34.59/mo over 24 months)",
+      "Display refresh rate capped at 60Hz"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone/apple-iphone-16",
+    "sourceCheckedAt": "2026-10-17"
+  }
+]

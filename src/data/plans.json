@@ -1,0 +1,70 @@
+[
+  {
+    "id": "tmobile-essentials-saver",
+    "name": "T-Mobile Essentials Saver",
+    "monthlyPriceByLines": {
+      "1": 50.0,
+      "2": 80.0
+    },
+    "autoPayAssumptions": "Pricing reflects $5/line monthly discount with eligible AutoPay (linked bank account or debit card). Without AutoPay, add $5 per line each month.",
+    "taxAndFeeAssumptions": "Taxes and government/regulatory fees are not included and are billed additionally (typically $5-$10/line depending on jurisdiction).",
+    "hotspotScore": 2,
+    "supportsUsage": [
+      "calls",
+      "text",
+      "browsing",
+      "social_media",
+      "video"
+    ],
+    "restrictions": {
+      "age55Plus": false,
+      "maxLines": 2
+    },
+    "dataAndHotspotFeatures": [
+      "50 GB of high-speed mobile data per month; speeds may be slowed during congestion",
+      "Unlimited 3G mobile hotspot data allowance",
+      "Standard-definition (480p) streaming video resolution"
+    ],
+    "eligibilityCriteria": [
+      "Available to new and existing T-Mobile single or dual-line customers",
+      "Strict account limit of maximum 2 voice lines"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone-plans",
+    "sourceCheckedAt": "2026-10-17"
+  },
+  {
+    "id": "tmobile-essentials-55",
+    "name": "T-Mobile Essentials Choice 55+",
+    "monthlyPriceByLines": {
+      "1": 45.0,
+      "2": 60.0
+    },
+    "autoPayAssumptions": "Pricing reflects $5/line monthly discount with eligible AutoPay (linked bank account or debit card). Without AutoPay, add $5 per line each month.",
+    "taxAndFeeAssumptions": "Taxes and government/regulatory fees are not included and are billed additionally.",
+    "hotspotScore": 2,
+    "supportsUsage": [
+      "calls",
+      "text",
+      "browsing",
+      "social_media",
+      "video"
+    ],
+    "restrictions": {
+      "age55Plus": true,
+      "maxLines": 2
+    },
+    "dataAndHotspotFeatures": [
+      "50 GB of premium high-speed mobile data per month",
+      "Unlimited 3G mobile hotspot data allowance",
+      "Standard-definition (480p) streaming video resolution",
+      "Scam Shield protection included"
+    ],
+    "eligibilityCriteria": [
+      "Primary account holder must be 55 years of age or older",
+      "Age verification required via valid government ID within 45 days of activation",
+      "Maximum of 2 voice lines per senior discount account"
+    ],
+    "sourceUrl": "https://www.t-mobile.com/cell-phone-plans/unlimited-55-senior-discount-plans",
+    "sourceCheckedAt": "2026-10-17"
+  }
+]
