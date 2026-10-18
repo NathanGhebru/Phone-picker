@@ -79,7 +79,13 @@ export type PlanCatalogItem = {
   restrictions?: { age55Plus?: boolean; customer?: 'new' | 'existing'; maxLines?: number };
 };
 
-export type Catalog = { asOf: string; phones: PhoneCatalogItem[]; plans: PlanCatalogItem[] };
+export type Catalog = {
+  asOf: string;
+  /** Optional because synthetic fixtures do not model production provenance. */
+  meta?: { sourceDisclaimer?: string; heuristicRatingDisclaimer?: string };
+  phones: PhoneCatalogItem[];
+  plans: PlanCatalogItem[];
+};
 
 export type CostEstimate = {
   monthlyPlanPrice: number | null;

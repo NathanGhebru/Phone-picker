@@ -61,6 +61,7 @@ export function recommend(preferencesInput: Preferences, catalog: Catalog): Reco
   const recommendations = pickRecommendations(candidates);
   const questions = [...rejected].sort().map(questionFor).filter((value): value is string => Boolean(value));
   const warnings: string[] = [];
+  if (catalog.meta?.sourceDisclaimer) warnings.push(catalog.meta.sourceDisclaimer);
   if (preferences.budgetMonthlyTotal !== null && preferences.budgetIncludesDevice === false) warnings.push('BUDGET_APPLIES_TO_PLAN_ONLY_DEVICE_COST_SHOWN_SEPARATELY');
   if (recommendations.length === 0) warnings.push(rejected.has('COMBINED_MONTHLY_BUDGET_EXCEEDED') ? 'NO_VERIFIED_BUNDLE_MEETS_THE_COMBINED_MONTHLY_BUDGET' : 'NO_VERIFIED_BUNDLE_SATISFIES_THE_HARD_CONSTRAINTS');
   return { recommendations, catalogAsOf: catalog.asOf, warnings: [...new Set(warnings)].sort(), questions: [...new Set(questions)].sort() };

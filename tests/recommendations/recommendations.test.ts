@@ -6,6 +6,7 @@ import type { Catalog, Preferences } from '../../src/recommendations';
 
 const catalog: Catalog = {
   asOf: 'TEST-ONLY-2026-10-17',
+  meta: { sourceDisclaimer: 'TEST: taxes, fees, and connection charges are excluded.' },
   phones: [
     { id: 'basic', name: 'Basic test phone', listPrice: 120, financingMonths: 24, sourceUrl: 'https://example.test/basic', sourceCheckedAt: '2026-10-17', scores: { camera: 1, battery: 2, displayReadability: 4, simplicity: 1 }, accessibility: { hearingCompatibility: 'unknown', largeTextFeatures: 'yes' }, strengths: [], tradeoffs: [] },
     { id: 'camera', name: 'Camera test phone', listPrice: 240, financingMonths: 24, sourceUrl: 'https://example.test/camera', sourceCheckedAt: '2026-10-17', scores: { camera: 5, battery: 3, displayReadability: 5, simplicity: 3 }, accessibility: { hearingCompatibility: 'unknown', largeTextFeatures: 'yes' }, strengths: [], tradeoffs: [] },
@@ -53,6 +54,7 @@ test('preserves AutoPay and tax assumptions without applying an additional disco
   assert.equal(value?.monthlyPlanPrice, 35);
   assert.ok(value?.assumptions.includes('TEST: price already includes eligible AutoPay; do not subtract another discount.'));
   assert.ok(value?.assumptions.includes('TEST: taxes and fees are excluded from this base price.'));
+  assert.ok(result.warnings.includes('TEST: taxes, fees, and connection charges are excluded.'));
 });
 test('plan max-lines restrictions are enforced even when a price is present', () => {
   const threeLines = recommend({ ...base(), lines: 3, budgetMonthlyTotal: 200 }, { ...catalog, plans: [{ ...catalog.plans[0], monthlyPriceByLines: { 1: 35, 2: 60, 3: 80 } }] });
