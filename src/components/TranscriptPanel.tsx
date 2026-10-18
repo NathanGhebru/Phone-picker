@@ -72,11 +72,14 @@ export function TranscriptPanel({
         className={`transcript-scroll mt-4 space-y-4 overflow-y-auto overflow-x-hidden pr-1.5 ${maxHeight}`}
       >
         {entries.length === 0 ? (
-          <div className="rounded-xl bg-slate-50 dark:bg-slate-800/50 p-5 text-center text-sm sm:text-base text-slate-600 dark:text-slate-300 border border-dashed border-slate-200 dark:border-slate-700">
-            <p className="font-medium text-slate-800 dark:text-slate-200 mb-1">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/40 p-6 text-center text-sm sm:text-base text-slate-600 dark:text-slate-300 border border-dashed border-slate-200 dark:border-slate-700/80">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300 mb-3 text-xl font-bold">
+              👋
+            </div>
+            <p className="font-bold text-slate-900 dark:text-slate-100 text-base mb-1">
               {language === "es" ? "Bienvenido a VoiceMatch" : "Welcome to VoiceMatch"}
             </p>
-            <p>{t.transcript.emptyState}</p>
+            <p className="text-sm leading-relaxed max-w-md mx-auto">{t.transcript.emptyState}</p>
           </div>
         ) : (
           entries.map((entry) => {
@@ -84,25 +87,40 @@ export function TranscriptPanel({
             return (
               <div
                 key={entry.id}
-                className={`flex flex-col ${isUser ? "items-end" : "items-start"}`}
+                className={`flex gap-2.5 ${isUser ? "justify-end" : "justify-start"}`}
               >
+                {!isUser && (
+                  <div
+                    aria-hidden="true"
+                    className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white dark:bg-teal-700 text-xs font-bold shadow-xs mt-1"
+                  >
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                )}
                 <div
-                  className={`max-w-[90%] sm:max-w-[85%] rounded-2xl p-4 shadow-sm text-sm sm:text-base leading-relaxed ${
+                  className={`max-w-[88%] sm:max-w-[80%] rounded-2xl p-4 shadow-xs text-sm sm:text-base leading-relaxed ${
                     isUser
-                      ? "bg-teal-700 text-white dark:bg-teal-600 rounded-br-sm"
-                      : "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-bl-sm"
+                      ? "bg-teal-700 text-white dark:bg-teal-600 rounded-tr-xs"
+                      : "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100 border border-slate-200/80 dark:border-slate-700 rounded-tl-xs"
                   }`}
                 >
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1.5">
                     <span
                       className={`text-xs font-bold uppercase tracking-wider ${
                         isUser
                           ? "text-teal-200 dark:text-teal-100"
-                          : "text-slate-500 dark:text-slate-400"
+                          : "text-slate-700 dark:text-slate-300"
                       }`}
                     >
                       {isUser ? t.transcript.userSpeaker : t.transcript.assistantSpeaker}
                     </span>
+                    {!isUser && (
+                      <span className="text-[10px] bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-teal-300 rounded px-1.5 py-0.2 font-medium">
+                        {language === "es" ? "Especialista" : "Specialist"}
+                      </span>
+                    )}
                     {!entry.final && (
                       <span className="text-[10px] bg-black/20 text-white rounded px-1.5 py-0.5 font-mono">
                         {t.transcript.listeningBadge}
@@ -116,16 +134,24 @@ export function TranscriptPanel({
           })
         )}
 
-        {/* Live indicator if assistant is processing */}
+        {/* Live indicator if assistant is consulting/reviewing options */}
         {isAssistantThinking && (
-          <div className="flex items-start">
-            <div className="rounded-2xl rounded-bl-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2">
+          <div className="flex items-start gap-2.5">
+            <div
+              aria-hidden="true"
+              className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white dark:bg-teal-700 text-xs font-bold shadow-xs mt-1"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <div className="rounded-2xl rounded-tl-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2.5">
               <span className="flex space-x-1" aria-hidden="true">
                 <span className="h-2 w-2 rounded-full bg-teal-600 motion-safe:animate-bounce" />
                 <span className="h-2 w-2 rounded-full bg-teal-600 motion-safe:animate-bounce [animation-delay:0.2s]" />
                 <span className="h-2 w-2 rounded-full bg-teal-600 motion-safe:animate-bounce [animation-delay:0.4s]" />
               </span>
-              <span>{t.transcript.thinkingBadge}</span>
+              <span className="font-medium">{t.transcript.thinkingBadge}</span>
             </div>
           </div>
         )}

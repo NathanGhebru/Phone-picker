@@ -74,11 +74,20 @@ export function VoiceMatchView({
       <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 shadow-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
-            <span aria-hidden="true" className="text-2xl">📱</span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-teal-600 font-bold shadow-xs">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+            </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-950 dark:text-white">
-                {t.common.appName}
-              </h1>
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-950 dark:text-white">
+                  {t.common.appName}
+                </h1>
+                <span className="hidden sm:inline-flex items-center rounded-full bg-teal-50 px-2.5 py-0.5 text-[11px] font-semibold text-teal-800 dark:bg-teal-950/80 dark:text-teal-300 border border-teal-200/60 dark:border-teal-800">
+                  {language === "es" ? "Asesoría Personal" : "Personal Concierge"}
+                </span>
+              </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
                 {t.common.tagline}
               </p>
@@ -98,16 +107,35 @@ export function VoiceMatchView({
       <main id="main-shopping-content" className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-8">
         {/* Top Section: Split between Voice Advisor Card & Transcript Area on Desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left / Primary Column: Voice Control & Status Hero (5 cols on desktop) */}
+          {/* Left / Primary Column: Personal Mobile Specialist Consultation Card (5 cols on desktop) */}
           <section
             aria-labelledby="voice-advisor-heading"
-            className="lg:col-span-5 flex flex-col justify-between rounded-3xl bg-slate-900 p-6 text-white shadow-xl dark:bg-slate-900 border border-slate-800"
+            className="lg:col-span-5 flex flex-col justify-between rounded-3xl bg-slate-900 p-6 text-white shadow-xl dark:bg-slate-900 border border-slate-800 relative overflow-hidden"
           >
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <h2 id="voice-advisor-heading" className="text-lg font-bold text-slate-100">
-                  {language === "es" ? "Asistente de Voz" : "Voice Advisor"}
-                </h2>
+            {/* Soft decorative background glow */}
+            <div className="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-teal-500/15 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-amber-500/10 blur-3xl" />
+
+            <div className="relative">
+              {/* Specialist Profile Header */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-600 text-white shadow-md">
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3z" />
+                    </svg>
+                    <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-slate-900 bg-emerald-500" />
+                  </div>
+                  <div>
+                    <h2 id="voice-advisor-heading" className="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-1.5">
+                      {language === "es" ? "Asesor Personal VoiceMatch" : "Voice Advisor"}
+                    </h2>
+                    <p className="text-xs text-teal-300 font-medium">
+                      {language === "es" ? "Especialista en planes y teléfonos" : "Personal Mobile Specialist"}
+                    </p>
+                  </div>
+                </div>
+
                 <ConversationStatus
                   state={voiceState}
                   message={voiceMessage || error}
@@ -116,14 +144,14 @@ export function VoiceMatchView({
                 />
               </div>
 
-              <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-300">
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-200">
                 {language === "es"
-                  ? "Describa lo que necesita con sus propias palabras. Cuéntenos quién usará el teléfono, su presupuesto aproximado y qué es lo más importante."
-                  : "Describe what you need in your own words. Tell us who the phone is for, your monthly budget, and what matters most."}
+                  ? "Hable con su especialista con total tranquilidad. Cuéntenos quién usará el teléfono, su presupuesto aproximado y qué es lo más importante para usted."
+                  : "Talk with your specialist just like in a store. Tell us who the phone is for, your monthly budget, and what matters most to you."}
               </p>
 
-              {/* Central Large Microphone Control */}
-              <div className="mt-8 mb-6 flex justify-center">
+              {/* Central Large Tactile Microphone Control */}
+              <div className="mt-7 mb-5 flex justify-center">
                 <VoiceControl
                   state={voiceState}
                   onStart={onStartMicrophone}
@@ -135,26 +163,36 @@ export function VoiceMatchView({
               </div>
             </div>
 
-            {/* Quick Tips */}
-            <div className="mt-4 pt-4 border-t border-slate-800/80 text-xs text-slate-400">
-              <p className="font-semibold text-slate-300 mb-1">
-                {language === "es" ? "Ejemplos que puede decir:" : "Examples you can say:"}
+            {/* Quick Tips Styled as Natural Questions */}
+            <div className="mt-3 pt-4 border-t border-slate-800/80 text-xs text-slate-300">
+              <p className="font-semibold text-slate-200 mb-2 flex items-center gap-1.5">
+                <span className="text-amber-400">💡</span>
+                {language === "es" ? "Preguntas naturales que puede hacer:" : "Natural questions you can ask:"}
               </p>
-              <ul className="list-disc list-inside space-y-1">
-                <li>
-                  {language === "es"
-                    ? '"Busco un teléfono para mi mamá con letra grande por $60 al mes"'
-                    : '"I need a phone for my mom with large text under $60/month"'}
+              <ul className="space-y-1.5 pl-1">
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 font-bold">•</span>
+                  <span>
+                    {language === "es"
+                      ? '"Busco un teléfono para mi mamá con letra grande por $60 al mes"'
+                      : '"I need a phone for my mom with large text under $60/month"'}
+                  </span>
                 </li>
-                <li>
-                  {language === "es"
-                    ? '"¿Hay alguna opción más barata?"'
-                    : '"Can you make it cheaper?"'}
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 font-bold">•</span>
+                  <span>
+                    {language === "es"
+                      ? '"¿Hay alguna opción más barata?"'
+                      : '"Can you make it cheaper?"'}
+                  </span>
                 </li>
-                <li>
-                  {language === "es"
-                    ? '"¿Qué significa hotspot?"'
-                    : '"What does hotspot mean?"'}
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 font-bold">•</span>
+                  <span>
+                    {language === "es"
+                      ? '"¿Qué significa hotspot?"'
+                      : '"What does hotspot mean?"'}
+                  </span>
                 </li>
               </ul>
             </div>
@@ -206,7 +244,7 @@ export function VoiceMatchView({
       <footer className="mt-16 border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
         <div className="mx-auto max-w-7xl px-4">
           <p className="font-medium text-slate-700 dark:text-slate-300">
-            VoiceMatch · Accessible Bilingual Phone & Plan Matcher
+            VoiceMatch · Personal Mobile & Plan Concierge
           </p>
           <p className="mt-1 max-w-2xl mx-auto leading-relaxed">
             {t.common.disclaimer}

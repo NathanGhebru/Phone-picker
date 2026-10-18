@@ -77,7 +77,11 @@ export function PreferenceSummary({
             id="preferences-summary-heading"
             className="text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2"
           >
-            <span aria-hidden="true">📋</span>
+            <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-md bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </span>
             {t.preferences.title}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
@@ -92,7 +96,11 @@ export function PreferenceSummary({
             aria-expanded={isEditing}
             className="touch-target inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
           >
-            <span aria-hidden="true">✏️</span>
+            <span aria-hidden="true" className="flex h-4 w-4 items-center justify-center">
+              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </span>
             <span>{isEditing ? t.common.cancel : t.preferences.correctButton}</span>
           </button>
         )}

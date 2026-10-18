@@ -34,9 +34,9 @@ export const enTranslations: Translations = {
   voiceControl: {
     startListening: "Start Speaking",
     stopListening: "Stop Speaking",
-    connecting: "Connecting voice...",
+    connecting: "Connecting with your advisor...",
     listening: "Listening to you...",
-    speaking: "VoiceMatch is speaking...",
+    speaking: "Advisor is speaking...",
     idle: "Microphone ready",
     micError: "Microphone error",
     micPermissionDenied:
@@ -48,9 +48,9 @@ export const enTranslations: Translations = {
   },
   conversationStatus: {
     idleText: "Ready for your question. Speak or type below.",
-    connectingText: "Connecting to audio session...",
+    connectingText: "Connecting with your advisor...",
     listeningText: "Listening... speak naturally.",
-    speakingText: "Speaking...",
+    speakingText: "Advisor is speaking...",
     errorText: "Connection issue. Please retry or type your message.",
     networkNotice: "Text chat is always available even if voice is disconnected.",
   },
@@ -61,7 +61,7 @@ export const enTranslations: Translations = {
     userSpeaker: "You",
     assistantSpeaker: "VoiceMatch Advisor",
     listeningBadge: "Listening...",
-    thinkingBadge: "Processing...",
+    thinkingBadge: "Checking options...",
     liveRegionLabel: "Live conversation updates",
   },
   chatInput: {

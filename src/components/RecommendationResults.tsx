@@ -96,7 +96,11 @@ export function RecommendationResults({
         className={`rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className}`}
       >
         <div className="mx-auto max-w-lg">
-          <span aria-hidden="true" className="text-4xl">📱</span>
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 dark:bg-teal-950 text-teal-700 dark:text-teal-300 mb-3 shadow-xs">
+            <svg className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+          </div>
           <h3 className="mt-3 text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100">
             {t.recommendations.emptyTitle}
           </h3>

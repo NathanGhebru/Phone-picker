@@ -37,7 +37,11 @@ export function RecommendationCard({
           ring: isSelected ? "ring-4 ring-teal-500/30 border-teal-600" : "border-slate-200 dark:border-slate-800",
           title: t.recommendations.labels.best_match,
           badgeText: t.recommendations.badges.best_match,
-          icon: "★",
+          svgIcon: (
+            <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ),
         };
       case "lowest_cost":
         return {
@@ -46,7 +50,11 @@ export function RecommendationCard({
           ring: isSelected ? "ring-4 ring-emerald-500/30 border-emerald-600" : "border-slate-200 dark:border-slate-800",
           title: t.recommendations.labels.lowest_cost,
           badgeText: t.recommendations.badges.lowest_cost,
-          icon: "🏷️",
+          svgIcon: (
+            <svg className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+          ),
         };
       case "alternative":
       default:
@@ -56,7 +64,11 @@ export function RecommendationCard({
           ring: isSelected ? "ring-4 ring-indigo-500/30 border-indigo-600" : "border-slate-200 dark:border-slate-800",
           title: t.recommendations.labels.alternative,
           badgeText: t.recommendations.badges.alternative,
-          icon: "🔄",
+          svgIcon: (
+            <svg className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+          ),
         };
     }
   };
@@ -66,15 +78,15 @@ export function RecommendationCard({
   return (
     <article
       aria-label={`${badge.title}: ${recommendation.phoneId} with ${recommendation.planId}`}
-      className={`flex flex-col justify-between rounded-2xl bg-white p-5 sm:p-6 shadow-sm transition-all dark:bg-slate-900 border ${badge.ring} ${className}`}
+      className={`flex flex-col justify-between rounded-2xl bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-all dark:bg-slate-900 border ${badge.ring} ${className}`}
     >
       <div>
         {/* Header with Label Badge */}
-        <div className="flex items-center justify-between gap-2 mb-3">
+        <div className="flex items-center justify-between gap-2 mb-3.5">
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${badge.bg}`}
           >
-            <span aria-hidden="true">{badge.icon}</span>
+            <span aria-hidden="true" className="flex items-center">{badge.svgIcon}</span>
             <span>{badge.badgeText}</span>
           </span>
 
@@ -86,13 +98,22 @@ export function RecommendationCard({
           )}
         </div>
 
-        {/* Product Names: Phone & Plan */}
-        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white leading-tight">
-          {recommendation.phoneId}
-        </h3>
-        <p className="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-300">
-          + {recommendation.planId}
-        </p>
+        {/* Product Names: Phone & Plan with Device Icon */}
+        <div className="flex items-start gap-3">
+          <div className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white leading-tight">
+              {recommendation.phoneId}
+            </h3>
+            <p className="mt-0.5 text-sm font-semibold text-teal-700 dark:text-teal-400">
+              + {recommendation.planId}
+            </p>
+          </div>
+        </div>
 
         {/* Cost Breakdown */}
         <div className="mt-4">

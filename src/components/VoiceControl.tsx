@@ -91,97 +91,82 @@ export function VoiceControl({
         disabled={disabled || state === "connecting"}
         aria-label={getAriaLabel()}
         aria-pressed={isActive}
-        className={`touch-target group relative inline-flex items-center justify-center gap-3 rounded-2xl px-6 py-4 text-lg font-bold transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed ${getButtonStyles()}`}
+        className={`touch-target group relative inline-flex items-center justify-center gap-3.5 rounded-2xl px-7 py-4 text-lg font-bold transition-all shadow-md hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed ${getButtonStyles()}`}
       >
-        {/* Animated pulse indicator for listening state (respects reduced motion) */}
+        {/* Animated ripple indicator for listening state (respects reduced motion) */}
         {state === "listening" && (
           <span
             aria-hidden="true"
-            className="absolute -inset-1 rounded-2xl bg-amber-400 opacity-30 motion-safe:animate-ping"
+            className="absolute -inset-1 rounded-2xl bg-amber-400 opacity-25 motion-safe:animate-ping"
           />
         )}
 
-        {/* Status Icon */}
-        <span aria-hidden="true" className="relative flex h-8 w-8 items-center justify-center">
-          {state === "connecting" && (
-            <svg
-              className="h-7 w-7 motion-safe:animate-spin text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
+        {/* Status Icon or Audio Waveform */}
+        {state === "listening" ? (
+          <span aria-hidden="true" className="relative flex items-center gap-1 h-7">
+            <span className="w-1 bg-white rounded-full h-3 motion-safe:animate-[pulse_0.8s_ease-in-out_infinite]" />
+            <span className="w-1 bg-white rounded-full h-6 motion-safe:animate-[pulse_0.6s_ease-in-out_infinite_0.1s]" />
+            <span className="w-1 bg-white rounded-full h-4 motion-safe:animate-[pulse_0.7s_ease-in-out_infinite_0.2s]" />
+            <span className="w-1 bg-white rounded-full h-7 motion-safe:animate-[pulse_0.5s_ease-in-out_infinite_0.15s]" />
+            <span className="w-1 bg-white rounded-full h-3 motion-safe:animate-[pulse_0.8s_ease-in-out_infinite_0.25s]" />
+          </span>
+        ) : state === "speaking" ? (
+          <span aria-hidden="true" className="relative flex items-center gap-1 h-7">
+            <span className="w-1 bg-white rounded-full h-4 motion-safe:animate-[pulse_0.7s_ease-in-out_infinite]" />
+            <span className="w-1 bg-white rounded-full h-6 motion-safe:animate-[pulse_0.5s_ease-in-out_infinite_0.2s]" />
+            <span className="w-1 bg-white rounded-full h-5 motion-safe:animate-[pulse_0.6s_ease-in-out_infinite_0.1s]" />
+            <span className="w-1 bg-white rounded-full h-3 motion-safe:animate-[pulse_0.8s_ease-in-out_infinite_0.3s]" />
+          </span>
+        ) : (
+          <span aria-hidden="true" className="relative flex h-7 w-7 items-center justify-center">
+            {state === "connecting" && (
+              <svg
+                className="h-6 w-6 motion-safe:animate-spin text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                />
+              </svg>
+            )}
+
+            {(state === "idle" || state === "error") && (
+              <svg
+                className="h-6 w-6 text-white"
+                fill="none"
                 stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v8H4z"
-              />
-            </svg>
-          )}
-
-          {state === "listening" && (
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3z"
-              />
-            </svg>
-          )}
-
-          {state === "speaking" && (
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
-              />
-            </svg>
-          )}
-
-          {(state === "idle" || state === "error") && (
-            <svg
-              className="h-8 w-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3z"
-              />
-            </svg>
-          )}
-        </span>
+                strokeWidth="2.2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3z"
+                />
+              </svg>
+            )}
+          </span>
+        )}
 
         {/* Text Label */}
-        <span className="relative text-base sm:text-lg tracking-wide">
+        <span className="relative text-base sm:text-lg tracking-wide font-bold">
           {isActive ? t.voiceControl.stopListening : t.voiceControl.startListening}
         </span>
       </button>
 
       {/* Helper caption */}
-      <p className="text-center text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+      <p className="text-center text-xs sm:text-sm font-medium text-slate-300 dark:text-slate-400">
         {getStatusLabel()}
       </p>
 

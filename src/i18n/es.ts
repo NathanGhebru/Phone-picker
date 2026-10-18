@@ -34,9 +34,9 @@ export const esTranslations: Translations = {
   voiceControl: {
     startListening: "Comenzar a hablar",
     stopListening: "Dejar de hablar",
-    connecting: "Conectando voz...",
+    connecting: "Conectando con su asesor...",
     listening: "Escuchándole...",
-    speaking: "VoiceMatch está hablando...",
+    speaking: "Su asesor está hablando...",
     idle: "Micrófono listo",
     micError: "Error de micrófono",
     micPermissionDenied:
@@ -48,9 +48,9 @@ export const esTranslations: Translations = {
   },
   conversationStatus: {
     idleText: "Listo para su consulta. Hable o escriba abajo.",
-    connectingText: "Conectando con la sesión de audio...",
+    connectingText: "Conectando con su asesor...",
     listeningText: "Escuchando... hable con naturalidad.",
-    speakingText: "Hablando...",
+    speakingText: "Su asesor está hablando...",
     errorText: "Problema de conexión. Por favor reintente o escriba su mensaje.",
     networkNotice: "El chat escrito siempre está disponible, incluso sin conexión de voz.",
   },
@@ -61,7 +61,7 @@ export const esTranslations: Translations = {
     userSpeaker: "Usted",
     assistantSpeaker: "Asesor VoiceMatch",
     listeningBadge: "Escuchando...",
-    thinkingBadge: "Procesando...",
+    thinkingBadge: "Revisando opciones...",
     liveRegionLabel: "Actualizaciones de la conversación en vivo",
   },
   chatInput: {
